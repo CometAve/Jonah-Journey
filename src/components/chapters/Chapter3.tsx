@@ -48,7 +48,7 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
   };
 
   return (
-    <div className="min-h-screen chapter-bg-3 px-4 py-8 relative overflow-hidden">
+    <div className="min-h-full min-h-svh chapter-bg-3 px-4 py-8 relative overflow-hidden">
       {/* Storm animations (dense shower + layered waves + drifting whale/boat) */}
       <div className="absolute inset-0 pointer-events-none z-0">
         {/* Dense shower layers */}

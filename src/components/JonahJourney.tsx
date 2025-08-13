@@ -79,25 +79,35 @@ export const JonahJourney = () => {
 
       // Show transition illustration of the completed chapter before moving to next chapter
       if (completedChapter < 6) {
-    const currentChapterImages = {
+        const currentChapterImages = {
           1: {
-      src: withBase("/lovable-uploads/68415989-ff18-4233-8e12-4871ad40fd65.png"),
+            src: withBase(
+              "/lovable-uploads/68415989-ff18-4233-8e12-4871ad40fd65.png"
+            ),
             alt: "예수님과 잃어버린 양",
           },
           2: {
-      src: withBase("/lovable-uploads/48529cb8-9277-4f00-bc42-3e3452123938.png"),
+            src: withBase(
+              "/lovable-uploads/48529cb8-9277-4f00-bc42-3e3452123938.png"
+            ),
             alt: "요나가 배삯을 주며 배에 오르는 모습",
           },
           3: {
-      src: withBase("/lovable-uploads/956f29a7-f225-4c2e-8feb-f1e655b53f5f.png"),
+            src: withBase(
+              "/lovable-uploads/956f29a7-f225-4c2e-8feb-f1e655b53f5f.png"
+            ),
             alt: "폭풍우 속에서 고래에게 삼켜지는 요나",
           },
           4: {
-      src: withBase("/lovable-uploads/a81cba74-f499-40e9-ab69-a0f520bcf468.png"),
+            src: withBase(
+              "/lovable-uploads/a81cba74-f499-40e9-ab69-a0f520bcf468.png"
+            ),
             alt: "물고기 뱃속에서 기도하는 요나",
           },
           5: {
-      src: withBase("/lovable-uploads/83aa194f-6bc3-4253-b395-6ddacd66ef29.png"),
+            src: withBase(
+              "/lovable-uploads/83aa194f-6bc3-4253-b395-6ddacd66ef29.png"
+            ),
             alt: "니느웨 성에서 전도하는 요나",
           },
         };
@@ -214,9 +224,9 @@ export const JonahJourney = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-svh bg-background flex flex-col">
       {/* Header */}
-  <div className="sticky top-0 z-[1000] bg-card/95 backdrop-blur-md border-b border-border shadow-sm">
+      <div className="sticky top-0 z-[1000] bg-card/95 backdrop-blur-md border-b border-border shadow-sm">
         <div className="max-w-4xl mx-auto p-4">
           <div className="flex items-center justify-between">
             <h1 className="text-xl md:text-2xl font-pretendard font-bold text-primary">
@@ -233,18 +243,23 @@ export const JonahJourney = () => {
         </div>
       </div>
 
-      {/* Navigation */}
-      <div className="max-w-4xl mx-auto p-4">
-        <ChapterNavigation
-          key={`nav-${Array.from(progress.completedChapters).sort().join("-")}`} // Force re-render when progress changes
-          currentChapter={currentChapter}
-          onChapterSelect={handleChapterSelect}
-        />
-      </div>
+      {/* Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Navigation */}
+        <div className="max-w-4xl mx-auto p-4">
+          <ChapterNavigation
+            key={`nav-${Array.from(progress.completedChapters)
+              .sort()
+              .join("-")}`} // Force re-render when progress changes
+            currentChapter={currentChapter}
+            onChapterSelect={handleChapterSelect}
+          />
+        </div>
 
-      {/* Main Content */}
-      <div className="relative">
-        <ChapterErrorBoundary>{renderCurrentChapter()}</ChapterErrorBoundary>
+        {/* Main Content */}
+        <div className="relative flex-1">
+          <ChapterErrorBoundary>{renderCurrentChapter()}</ChapterErrorBoundary>
+        </div>
       </div>
 
       {/* Chapter Transition */}

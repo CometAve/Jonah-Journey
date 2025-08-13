@@ -38,7 +38,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
     onComplete();
   };
   return (
-    <div className="min-h-screen chapter-bg-1 relative overflow-hidden px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="min-h-full min-h-svh chapter-bg-1 relative overflow-hidden px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Scenic background: reuse Chapter 1 (sun, clouds, hills) */}
       <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
         {/* Sun */}
@@ -173,7 +173,9 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
               transition={{ duration: 0.5 }}
             >
               <motion.img
-                src={withBase("/lovable-uploads/cd8efd63-c57d-4db0-a70d-fef6e50fd61c.png")}
+                src={withBase(
+                  "/lovable-uploads/cd8efd63-c57d-4db0-a70d-fef6e50fd61c.png"
+                )}
                 alt="니느웨를 바라보며 분노하는 요나"
                 className="max-w-full max-h-full object-contain"
                 initial={{ opacity: 0, scale: 0.9 }}

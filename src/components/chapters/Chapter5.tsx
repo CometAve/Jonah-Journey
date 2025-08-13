@@ -29,7 +29,7 @@ export const Chapter5 = ({ onComplete, isVisible = true }: Chapter5Props) => {
   };
 
   return (
-    <div className="min-h-screen chapter-bg-1 relative overflow-hidden px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="min-h-full min-h-svh chapter-bg-1 relative overflow-hidden px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Scenic background: reuse Chapter 1 (sun, clouds, hills) */}
       <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
         {/* Sun */}

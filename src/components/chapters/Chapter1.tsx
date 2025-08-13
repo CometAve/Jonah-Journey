@@ -21,7 +21,7 @@ export const Chapter1 = ({ onComplete, isVisible = true }: Chapter1Props) => {
     onComplete();
   };
   return (
-    <div className="min-h-screen chapter-bg-1 relative overflow-hidden px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="min-h-full min-h-svh chapter-bg-1 relative overflow-hidden px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       {/* Scenic background: sun, clouds, hills, and sheep */}
       <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
         {/* Sun */}
@@ -110,14 +110,19 @@ export const Chapter1 = ({ onComplete, isVisible = true }: Chapter1Props) => {
                   zIndex: z,
                 }}
               >
-                <span className="sheep-scale" style={{ transform: `scale(${scale})` }}>
+                <span
+                  className="sheep-scale"
+                  style={{ transform: `scale(${scale})` }}
+                >
                   <span
                     className="sheep-wander"
-                    style={{
-                      '--wander-x': `${wanderX}px`,
-                      '--wander-y': `${wanderY}px`,
-                      animationDuration: `${wanderDur}s`,
-                    } as React.CSSProperties}
+                    style={
+                      {
+                        "--wander-x": `${wanderX}px`,
+                        "--wander-y": `${wanderY}px`,
+                        animationDuration: `${wanderDur}s`,
+                      } as React.CSSProperties
+                    }
                   >
                     <span className="sheep-flip-y">
                       <span className="sheep-bob select-none">🐑</span>

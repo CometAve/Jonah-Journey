@@ -60,7 +60,12 @@ export const JonahJourney = () => {
         return;
       }
 
-      // Store which chapter was completed for later processing
+      console.log(`Starting completion process for chapter ${completedChapter}`);
+      
+      // ✅ IMMEDIATE STATE UPDATE - Complete the chapter right away
+      completeChapter(completedChapter);
+
+      // Store which chapter was completed for transition handling
       setPendingChapterCompletion(completedChapter);
 
       // Start preloading the next chapter immediately if not the last chapter
@@ -102,14 +107,12 @@ export const JonahJourney = () => {
           setTransitionImage(imageData);
           setShowTransition(true);
         } else {
-          // If no image for this chapter, complete immediately
-          completeChapter(completedChapter);
+          // Clean up if no image
           setPendingChapterCompletion(null);
           setPreloadingChapter(null);
         }
       } else {
-        // Chapter 6 is the last chapter, complete immediately
-        completeChapter(completedChapter);
+        // Chapter 6 is the last chapter, clean up
         setPendingChapterCompletion(null);
         setPreloadingChapter(null);
       }
@@ -120,19 +123,13 @@ export const JonahJourney = () => {
   const handleTransitionComplete = useCallback(() => {
     setShowTransition(false);
 
-    // Now complete the chapter and update progress
+    // Clean up transition state (chapter is already completed)
     if (pendingChapterCompletion !== null) {
-      try {
-        completeChapter(pendingChapterCompletion);
-        console.log(`Chapter ${pendingChapterCompletion} marked as completed`);
-      } catch (error) {
-        console.error("Error completing chapter:", error);
-      } finally {
-        setPendingChapterCompletion(null);
-        setPreloadingChapter(null);
-      }
+      console.log(`Transition completed for chapter ${pendingChapterCompletion} (already marked as completed)`);
+      setPendingChapterCompletion(null);
+      setPreloadingChapter(null);
     }
-  }, [pendingChapterCompletion, completeChapter]);
+  }, [pendingChapterCompletion]);
 
   const handleChapterSelect = useCallback(
     (chapter: number) => {
@@ -234,6 +231,7 @@ export const JonahJourney = () => {
       {/* Navigation */}
       <div className="max-w-4xl mx-auto p-4">
         <ChapterNavigation
+          key={`nav-${Array.from(progress.completedChapters).sort().join('-')}`} // Force re-render when progress changes
           currentChapter={currentChapter}
           onChapterSelect={handleChapterSelect}
         />

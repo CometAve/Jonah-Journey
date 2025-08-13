@@ -76,12 +76,12 @@ export const useProgress = () => {
   };
 
   const completeChapter = useCallback((chapter: number) => {
-    console.log(`Completing chapter ${chapter}`);
+    console.log(`🎯 Completing chapter ${chapter} - START`);
 
     setProgress((prev) => {
       // Check if chapter is already completed to avoid unnecessary updates
       if (prev.completedChapters.has(chapter)) {
-        console.log(`Chapter ${chapter} already completed`);
+        console.log(`⚠️ Chapter ${chapter} already completed`);
         return prev;
       }
 
@@ -89,23 +89,22 @@ export const useProgress = () => {
       const newCompletedChapters = new Set(prev.completedChapters);
       newCompletedChapters.add(chapter);
 
-      // Only advance to next chapter if current chapter is less than or equal to the completed chapter
-      const newCurrentChapter =
-        chapter < 6
-          ? Math.max(prev.currentChapter, chapter + 1)
-          : prev.currentChapter;
-
+      // Force React to recognize this as a new object by creating a completely new state
       const newProgress = {
-        ...prev,
+        currentChapter: chapter < 6 
+          ? Math.max(prev.currentChapter, chapter + 1) 
+          : prev.currentChapter,
         completedChapters: newCompletedChapters,
-        currentChapter: newCurrentChapter,
+        answers: { ...prev.answers }, // Create new reference for answers too
       };
 
-      console.log(`Chapter ${chapter} completed. New progress:`, {
+      console.log(`✅ Chapter ${chapter} completed. New progress:`, {
         currentChapter: newProgress.currentChapter,
         completedChapters: Array.from(newProgress.completedChapters),
+        timestamp: new Date().toISOString(),
       });
 
+      // Force immediate re-render by ensuring object identity change
       return newProgress;
     });
   }, []);

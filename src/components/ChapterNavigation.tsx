@@ -21,15 +21,16 @@ export const ChapterNavigation = ({
 }: ChapterNavigationProps) => {
   const { isChapterUnlocked, progress } = useProgress();
 
-  // Debug log for completed chapters
+  // Debug log for completed chapters with timestamp
   console.log(
-    "ChapterNavigation render - Completed chapters:",
-    Array.from(progress.completedChapters)
+    "🎨 ChapterNavigation render - Completed chapters:",
+    Array.from(progress.completedChapters),
+    "at", new Date().toISOString()
   );
 
-  // Memoize completed chapters array to prevent unnecessary re-renders
-  const completedChaptersArray = useMemo(
-    () => Array.from(progress.completedChapters),
+  // Force component to re-render when completedChapters change
+  const completedChaptersKey = useMemo(() => 
+    Array.from(progress.completedChapters).sort().join('-') || 'none', 
     [progress.completedChapters]
   );
 
@@ -37,6 +38,8 @@ export const ChapterNavigation = ({
     (chapterNum: number) => {
       const isUnlocked = isChapterUnlocked(chapterNum);
       const isCompleted = progress.completedChapters.has(chapterNum);
+
+      console.log(`🖱️ Chapter ${chapterNum} clicked:`, { isUnlocked, isCompleted });
 
       // Allow navigation only if chapter is unlocked and not completed
       if (isUnlocked && !isCompleted) {
@@ -47,7 +50,10 @@ export const ChapterNavigation = ({
   );
 
   return (
-    <div className="bg-card/95 backdrop-blur-sm border border-border rounded-xl p-5 mb-6 shadow-sm">
+    <div 
+      key={`navigation-${completedChaptersKey}`} // Force re-render when completedChapters change
+      className="bg-card/95 backdrop-blur-sm border border-border rounded-xl p-5 mb-6 shadow-sm"
+    >
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {CHAPTER_TITLES.map((title, index) => {
           const chapterNum = index + 1;
@@ -58,7 +64,7 @@ export const ChapterNavigation = ({
 
           return (
             <Button
-              key={chapterNum}
+              key={`chapter-${chapterNum}-${isCompleted ? 'completed' : 'pending'}`} // Force re-render when completion status changes
               variant={isCurrent ? "default" : "outline"}
               size="sm"
               className={`relative text-xs p-3 h-auto flex flex-col items-center gap-1.5 rounded-lg ${

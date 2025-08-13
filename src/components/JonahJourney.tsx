@@ -60,8 +60,10 @@ export const JonahJourney = () => {
         return;
       }
 
-      console.log(`Starting completion process for chapter ${completedChapter}`);
-      
+      console.log(
+        `Starting completion process for chapter ${completedChapter}`
+      );
+
       // ✅ IMMEDIATE STATE UPDATE - Complete the chapter right away
       completeChapter(completedChapter);
 
@@ -125,7 +127,9 @@ export const JonahJourney = () => {
 
     // Clean up transition state (chapter is already completed)
     if (pendingChapterCompletion !== null) {
-      console.log(`Transition completed for chapter ${pendingChapterCompletion} (already marked as completed)`);
+      console.log(
+        `Transition completed for chapter ${pendingChapterCompletion} (already marked as completed)`
+      );
       setPendingChapterCompletion(null);
       setPreloadingChapter(null);
     }
@@ -231,7 +235,7 @@ export const JonahJourney = () => {
       {/* Navigation */}
       <div className="max-w-4xl mx-auto p-4">
         <ChapterNavigation
-          key={`nav-${Array.from(progress.completedChapters).sort().join('-')}`} // Force re-render when progress changes
+          key={`nav-${Array.from(progress.completedChapters).sort().join("-")}`} // Force re-render when progress changes
           currentChapter={currentChapter}
           onChapterSelect={handleChapterSelect}
         />

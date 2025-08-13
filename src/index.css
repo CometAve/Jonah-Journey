@@ -223,7 +223,14 @@
 
   /* Chapter backgrounds */
   .chapter-bg-1 {
-    background: var(--gradient-divine);
+    /* Clear blue sky gradient */
+    background: linear-gradient(
+      180deg,
+      hsl(204 100% 88%) 0%,
+      /* sky top */ hsl(204 92% 86%) 30%,
+      hsl(201 90% 84%) 60%,
+      hsl(201 86% 82%) 100%
+    );
   }
 
   .chapter-bg-2 {
@@ -342,15 +349,23 @@
     will-change: transform, opacity;
   }
 
-  .shower.slower { animation-duration: 1.6s; opacity: 0.6; }
-  .shower.faster { animation-duration: 0.9s; opacity: 0.8; }
+  .shower.slower {
+    animation-duration: 1.6s;
+    opacity: 0.6;
+  }
+  .shower.faster {
+    animation-duration: 0.9s;
+    opacity: 0.8;
+  }
 
   @keyframes shower-fall {
     0% {
       transform: translate(-10vw, -30vh) rotate(15deg);
       opacity: 0.2;
     }
-    10% { opacity: 0.8; }
+    10% {
+      opacity: 0.8;
+    }
     100% {
       transform: translate(10vw, 110vh) rotate(15deg);
       opacity: 0.2;
@@ -384,23 +399,50 @@
     height: 100%;
   }
 
-  .wave-sway-slow { animation: wave-sway 8s ease-in-out infinite; }
-  .wave-sway { animation: wave-sway 6s ease-in-out infinite; }
-  .wave-sway-fast { animation: wave-sway 4.2s ease-in-out infinite; }
+  .wave-sway-slow {
+    animation: wave-sway 8s ease-in-out infinite;
+  }
+  .wave-sway {
+    animation: wave-sway 6s ease-in-out infinite;
+  }
+  .wave-sway-fast {
+    animation: wave-sway 4.2s ease-in-out infinite;
+  }
 
   /* Actors (boat/whale) follow the same sway as waves for perfect sync */
-  .actor-sway-slow { animation: wave-sway 8s ease-in-out infinite; will-change: transform; }
-  .actor-sway { animation: wave-sway 6s ease-in-out infinite; will-change: transform; }
-  .actor-sway-fast { animation: wave-sway 4.2s ease-in-out infinite; will-change: transform; }
+  .actor-sway-slow {
+    animation: wave-sway 8s ease-in-out infinite;
+    will-change: transform;
+  }
+  .actor-sway {
+    animation: wave-sway 6s ease-in-out infinite;
+    will-change: transform;
+  }
+  .actor-sway-fast {
+    animation: wave-sway 4.2s ease-in-out infinite;
+    will-change: transform;
+  }
 
   /* Rougher wave motion: larger horizontal sway and vertical heave */
   @keyframes wave-sway {
-    0%   { transform: translateX(-6%) translateY(0); }
-    20%  { transform: translateX(4%) translateY(-10px); }
-    40%  { transform: translateX(6%) translateY(-2px); }
-    60%  { transform: translateX(-3%) translateY(8px); }
-    80%  { transform: translateX(-5%) translateY(2px); }
-    100% { transform: translateX(-6%) translateY(0); }
+    0% {
+      transform: translateX(-6%) translateY(0);
+    }
+    20% {
+      transform: translateX(4%) translateY(-10px);
+    }
+    40% {
+      transform: translateX(6%) translateY(-2px);
+    }
+    60% {
+      transform: translateX(-3%) translateY(8px);
+    }
+    80% {
+      transform: translateX(-5%) translateY(2px);
+    }
+    100% {
+      transform: translateX(-6%) translateY(0);
+    }
   }
 
   /* Whale horizontal drift + vertical bobbing, without background shape */
@@ -426,26 +468,49 @@
   }
 
   @keyframes whale-drift {
-    0% { transform: translateX(-45%); }
-    50% { transform: translateX(45%); }
-    100% { transform: translateX(-45%); }
+    0% {
+      transform: translateX(-45%);
+    }
+    50% {
+      transform: translateX(45%);
+    }
+    100% {
+      transform: translateX(-45%);
+    }
   }
 
   @keyframes whale-drift-left {
-    0% { transform: translateX(-10%); }
-    50% { transform: translateX(20%); }
-    100% { transform: translateX(-10%); }
+    0% {
+      transform: translateX(-10%);
+    }
+    50% {
+      transform: translateX(20%);
+    }
+    100% {
+      transform: translateX(-10%);
+    }
   }
 
   @keyframes whale-drift-right {
-    0% { transform: translateX(-20%); }
-    50% { transform: translateX(10%); }
-    100% { transform: translateX(-20%); }
+    0% {
+      transform: translateX(-20%);
+    }
+    50% {
+      transform: translateX(10%);
+    }
+    100% {
+      transform: translateX(-20%);
+    }
   }
 
   @keyframes whale-bob {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
   }
 
   /* Boat floating on top wave */
@@ -475,31 +540,59 @@
   }
 
   @keyframes boat-drift {
-    0% { transform: translateX(-35%); }
-    50% { transform: translateX(35%); }
-    100% { transform: translateX(-35%); }
+    0% {
+      transform: translateX(-35%);
+    }
+    50% {
+      transform: translateX(35%);
+    }
+    100% {
+      transform: translateX(-35%);
+    }
   }
 
   @keyframes boat-drift-right {
-    0% { transform: translateX(-15%); }
-    50% { transform: translateX(10%); }
-    100% { transform: translateX(-15%); }
+    0% {
+      transform: translateX(-15%);
+    }
+    50% {
+      transform: translateX(10%);
+    }
+    100% {
+      transform: translateX(-15%);
+    }
   }
 
   @keyframes boat-drift-left {
-    0% { transform: translateX(-10%); }
-    50% { transform: translateX(15%); }
-    100% { transform: translateX(-10%); }
+    0% {
+      transform: translateX(-10%);
+    }
+    50% {
+      transform: translateX(15%);
+    }
+    100% {
+      transform: translateX(-10%);
+    }
   }
 
   @keyframes boat-bob {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
   }
 
   @keyframes boat-tilt {
-    0%, 100% { transform: rotate(-2deg); }
-    50% { transform: rotate(3deg); }
+    0%,
+    100% {
+      transform: rotate(-2deg);
+    }
+    50% {
+      transform: rotate(3deg);
+    }
   }
 
   /* Utility: horizontal flip wrapper so it composes with tilt/bob */
@@ -559,5 +652,318 @@
 
   .divine-glow {
     filter: drop-shadow(0 0 20px hsl(var(--divine) / 0.3));
+  }
+
+  /* ===== Chapter 1 Scenic Elements ===== */
+  .sun {
+    position: absolute;
+    top: 6vh;
+    right: 8vw;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 30% 30%,
+      #fff8d6 0%,
+      #ffe88a 50%,
+      #ffd04d 70%,
+      #ffb703 100%
+    );
+    box-shadow: 0 0 60px 20px rgba(255, 215, 80, 0.35),
+      0 0 100px 40px rgba(255, 215, 80, 0.2);
+    animation: sun-glow 6s ease-in-out infinite;
+  }
+
+  @keyframes sun-glow {
+    0%,
+    100% {
+      transform: translateY(0);
+      filter: drop-shadow(0 0 12px rgba(255, 200, 60, 0.5));
+    }
+    50% {
+      transform: translateY(-6px);
+      filter: drop-shadow(0 0 18px rgba(255, 200, 60, 0.7));
+    }
+  }
+
+  .cloud-layer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .cloud {
+    position: absolute;
+    width: 160px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 30px 10px 0 8px #fff, 65px -8px 0 6px #fff,
+      100px 6px 0 10px #fff;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.06));
+  }
+  .cloud-sm {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  .cloud-md {
+    transform: scale(1);
+  }
+  .cloud-lg {
+    transform: scale(1.2);
+  }
+
+  .cloud-drift-slow {
+    animation: cloud-drift 42s linear infinite;
+  }
+  .cloud-drift {
+    animation: cloud-drift 30s linear infinite;
+  }
+  .cloud-drift-fast {
+    animation: cloud-drift 22s linear infinite;
+  }
+
+  @keyframes cloud-drift {
+    0% {
+      transform: translateX(-30vw) translateZ(0) scale(var(--c-scale, 1));
+    }
+    100% {
+      transform: translateX(130vw) translateZ(0) scale(var(--c-scale, 1));
+    }
+  }
+
+  /* Rolling hills and grass field */
+  .field {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40vh;
+    pointer-events: none;
+  }
+
+  .hill {
+    position: absolute;
+    bottom: 10vh;
+    width: 60vw;
+    height: 30vh;
+    border-radius: 50% 50% 0 0;
+    background: radial-gradient(
+      circle at 50% 10%,
+      #7bc96f 0%,
+      #5bbd57 60%,
+      #46a74a 100%
+    );
+    filter: blur(0.5px) saturate(1.05);
+  }
+  .hill-left {
+    left: -10vw;
+    transform: rotate(-2deg);
+  }
+  .hill-right {
+    right: -8vw;
+    transform: rotate(3deg);
+    background: radial-gradient(
+      circle at 50% 10%,
+      #86d47a 0%,
+      #64c662 60%,
+      #49ae4e 100%
+    );
+  }
+
+  .grass {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 22vh;
+    background: linear-gradient(180deg, #6dcf5e 0%, #4fb94b 40%, #3d9f3d 100%);
+    box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.06) inset;
+  }
+
+  /* Sheep animation */
+  .sheep-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 36vh;
+    pointer-events: none;
+  }
+  .sheep-runner {
+    position: absolute;
+    left: -10vw;
+    animation-name: sheep-run;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+  .sheep-scale { display: inline-block; }
+  .sheep-wander {
+    display: inline-block;
+    animation-name: sheep-wander;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  .sheep-flip-y {
+    display: inline-block;
+    transform: scaleX(-1);
+  }
+  .sheep-bob {
+    display: inline-block;
+    font-size: clamp(28px, 6vw, 64px);
+    animation: sheep-bob 0.9s ease-in-out infinite;
+  }
+
+  @keyframes sheep-bob {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+      transform: translateY(-6px) rotate(2deg);
+    }
+  }
+
+  @keyframes sheep-run {
+    0% {
+      transform: translateX(-12vw);
+    }
+    100% {
+      transform: translateX(112vw);
+    }
+  }
+
+  @keyframes sheep-wander {
+    0%   { transform: translate(0, 0) rotate(-1deg); }
+    50%  { transform: translate(var(--wander-x, 6px), var(--wander-y, -4px)) rotate(1deg); }
+    100% { transform: translate(calc(var(--wander-x, 6px) * -0.6), calc(var(--wander-y, -4px) * -0.6)) rotate(-1.2deg); }
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .cloud-drift-slow,
+    .cloud-drift,
+    .cloud-drift-fast,
+    .sun,
+    .sheep-bob,
+  .sheep-runner,
+  .sheep-wander {
+      animation: none !important;
+    }
+  }
+
+  /* Sun rays and lens flare */
+  .flare-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40vw;
+    height: 40vh;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .flare {
+    position: absolute;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0) 70%
+    );
+    border-radius: 9999px;
+    mix-blend-mode: screen;
+    filter: blur(2px);
+    opacity: 0.35;
+    animation: flare-pulse 6s ease-in-out infinite;
+  }
+  .flare-1 {
+    width: 140px;
+    height: 140px;
+    top: 6vh;
+    right: 8vw;
+    animation-delay: 0s;
+  }
+  .flare-2 {
+    width: 90px;
+    height: 90px;
+    top: 16vh;
+    right: 18vw;
+    animation-delay: 0.6s;
+  }
+  .flare-3 {
+    width: 60px;
+    height: 60px;
+    top: 22vh;
+    right: 26vw;
+    animation-delay: 1.2s;
+  }
+  .flare-4 {
+    width: 40px;
+    height: 40px;
+    top: 28vh;
+    right: 34vw;
+    animation-delay: 1.8s;
+  }
+
+  @keyframes flare-pulse {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.95);
+    }
+    50% {
+      opacity: 0.55;
+      transform: scale(1.05);
+    }
+  }
+
+  /* Sun rays: subtle radial beams */
+  .sun::before,
+  .sun::after {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      rgba(255, 215, 80, 0) 0deg,
+      rgba(255, 215, 80, 0.22) 20deg,
+      rgba(255, 215, 80, 0) 40deg,
+      rgba(255, 215, 80, 0.18) 60deg,
+      rgba(255, 215, 80, 0) 80deg,
+      rgba(255, 215, 80, 0.16) 100deg,
+      rgba(255, 215, 80, 0) 120deg,
+      rgba(255, 215, 80, 0.14) 140deg,
+      rgba(255, 215, 80, 0) 160deg,
+      rgba(255, 215, 80, 0.12) 180deg,
+      rgba(255, 215, 80, 0) 200deg,
+      rgba(255, 215, 80, 0.1) 220deg,
+      rgba(255, 215, 80, 0) 240deg,
+      rgba(255, 215, 80, 0.08) 260deg,
+      rgba(255, 215, 80, 0) 280deg,
+      rgba(255, 215, 80, 0.06) 300deg,
+      rgba(255, 215, 80, 0) 320deg,
+      rgba(255, 215, 80, 0.04) 340deg,
+      rgba(255, 215, 80, 0) 360deg
+    );
+    filter: blur(8px);
+    mix-blend-mode: screen;
+    opacity: 0.4;
+  }
+  .sun::before {
+    animation: rays-rotate 24s linear infinite;
+  }
+  .sun::after {
+    animation: rays-rotate 36s linear infinite reverse;
+  }
+  @keyframes rays-rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }

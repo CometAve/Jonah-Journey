@@ -12,6 +12,7 @@ import { Chapter4 } from "./chapters/Chapter4";
 import { Chapter5 } from "./chapters/Chapter5";
 import { Chapter6 } from "./chapters/Chapter6";
 import { Button } from "./ui/button";
+import { withBase } from "@/lib/utils";
 
 export const JonahJourney = () => {
   const {
@@ -78,25 +79,25 @@ export const JonahJourney = () => {
 
       // Show transition illustration of the completed chapter before moving to next chapter
       if (completedChapter < 6) {
-        const currentChapterImages = {
+    const currentChapterImages = {
           1: {
-            src: "/lovable-uploads/68415989-ff18-4233-8e12-4871ad40fd65.png",
+      src: withBase("/lovable-uploads/68415989-ff18-4233-8e12-4871ad40fd65.png"),
             alt: "예수님과 잃어버린 양",
           },
           2: {
-            src: "/lovable-uploads/48529cb8-9277-4f00-bc42-3e3452123938.png",
+      src: withBase("/lovable-uploads/48529cb8-9277-4f00-bc42-3e3452123938.png"),
             alt: "요나가 배삯을 주며 배에 오르는 모습",
           },
           3: {
-            src: "/lovable-uploads/956f29a7-f225-4c2e-8feb-f1e655b53f5f.png",
+      src: withBase("/lovable-uploads/956f29a7-f225-4c2e-8feb-f1e655b53f5f.png"),
             alt: "폭풍우 속에서 고래에게 삼켜지는 요나",
           },
           4: {
-            src: "/lovable-uploads/a81cba74-f499-40e9-ab69-a0f520bcf468.png",
+      src: withBase("/lovable-uploads/a81cba74-f499-40e9-ab69-a0f520bcf468.png"),
             alt: "물고기 뱃속에서 기도하는 요나",
           },
           5: {
-            src: "/lovable-uploads/83aa194f-6bc3-4253-b395-6ddacd66ef29.png",
+      src: withBase("/lovable-uploads/83aa194f-6bc3-4253-b395-6ddacd66ef29.png"),
             alt: "니느웨 성에서 전도하는 요나",
           },
         };

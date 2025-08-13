@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { QuestionInput } from "@/components/QuestionInput";
+import { withBase } from "@/lib/utils";
 import { validateBibleVerse, BIBLE_ANSWERS } from "@/utils/validation";
 import { useProgress } from "@/hooks/useProgress";
 interface Chapter6Props {
@@ -172,7 +173,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
               transition={{ duration: 0.5 }}
             >
               <motion.img
-                src="/lovable-uploads/cd8efd63-c57d-4db0-a70d-fef6e50fd61c.png"
+                src={withBase("/lovable-uploads/cd8efd63-c57d-4db0-a70d-fef6e50fd61c.png")}
                 alt="니느웨를 바라보며 분노하는 요나"
                 className="max-w-full max-h-full object-contain"
                 initial={{ opacity: 0, scale: 0.9 }}

@@ -234,7 +234,9 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
 
                 <div className="bg-divine/10 p-4 rounded-lg">
                   <p className="font-semibold text-divine">
-                    미로찾기를 완료한 후 얻은 키워드를 입력하세요
+                    미로찾기를 완료한 후 얻은 키워드를
+                    <br />
+                    입력하세요
                   </p>
                 </div>
               </div>

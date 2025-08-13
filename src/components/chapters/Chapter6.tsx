@@ -236,6 +236,13 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                   <div className="absolute inset-0 pointer-events-none" />
                 </div>
 
+                {/* 안내문 추가 */}
+                <div className="text-center bg-muted/50 border border-border/50 rounded-lg p-4">
+                  <p className="text-muted-foreground text-sm">
+                    💡 <strong>문제를 자세히 보고 싶으시면 아래 "영상 시청 완료" 버튼을 눌러주세요!</strong>
+                  </p>
+                </div>
+
                 <div className="text-center">
                   <motion.button
                     onClick={handleVideoComplete}

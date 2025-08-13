@@ -274,8 +274,9 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
 
                 <div className="bg-muted/50 p-6 rounded-lg">
                   <p className="text-lg leading-relaxed mb-4">
-                    여기 늑대, 양, 양배추가 있습니다. 뱃사공은 늑대, 양,
-                    양배추를 모두 강 건너로 옮겨야 합니다.
+                    여기 늑대, 양, 양배추가 있습니다.
+                    <br />
+                    뱃사공은 늑대, 양, 양배추를 모두 강 건너로 옮겨야 합니다.
                   </p>
 
                   <div className="space-y-3 text-base">

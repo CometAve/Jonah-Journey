@@ -1,9 +1,9 @@
 import { useProgress } from "@/hooks/useProgress";
-import { usePreloadChapter } from "@/hooks/usePreloadChapter";
 import React, { useEffect, useState } from "react";
 import { ChapterNavigation } from "./ChapterNavigation";
 import { ChapterTransition } from "./ChapterTransition";
 import { ChapterErrorBoundary } from "./ChapterErrorBoundary";
+import { ChapterPreloader } from "./ChapterPreloader";
 import { IntroAnimation } from "./IntroAnimation";
 import { Chapter1 } from "./chapters/Chapter1";
 import { Chapter2 } from "./chapters/Chapter2";
@@ -32,21 +32,6 @@ export const JonahJourney = () => {
   const [preloadingChapter, setPreloadingChapter] = useState<number | null>(
     null
   );
-  const [isNextChapterReady, setIsNextChapterReady] = useState(false);
-
-  // Use the preload hook
-  const {
-    preloadedComponent,
-    isLoading: isPreloading,
-    error: preloadError,
-  } = usePreloadChapter(preloadingChapter);
-
-  // Update ready state when preloaded component is available
-  useEffect(() => {
-    if (preloadedComponent && !isPreloading && !preloadError) {
-      setIsNextChapterReady(true);
-    }
-  }, [preloadedComponent, isPreloading, preloadError]);
 
   // Update current chapter based on progress only when not in transition
   useEffect(() => {
@@ -81,7 +66,6 @@ export const JonahJourney = () => {
     if (completedChapter < 6) {
       const nextChapter = completedChapter + 1;
       setPreloadingChapter(nextChapter);
-      setIsNextChapterReady(false);
     }
 
     // Show transition illustration of the completed chapter before moving to next chapter
@@ -142,7 +126,6 @@ export const JonahJourney = () => {
       } finally {
         setPendingChapterCompletion(null);
         setPreloadingChapter(null);
-        setIsNextChapterReady(false);
       }
     }
   };
@@ -154,7 +137,7 @@ export const JonahJourney = () => {
   };
 
   const handlePreloadedChapterReady = () => {
-    setIsNextChapterReady(true);
+    // This function can be removed as we're using ChapterPreloader directly
   };
 
   const renderCurrentChapter = () => {
@@ -260,27 +243,13 @@ export const JonahJourney = () => {
       )}
 
       {/* Background Preloader for Next Chapter */}
-      {preloadedComponent && preloadingChapter && (
+      {preloadingChapter && (
         <ChapterErrorBoundary>
-          <div
-            style={{
-              position: "absolute",
-              top: "-9999px",
-              left: "-9999px",
-              width: "1px",
-              height: "1px",
-              visibility: "hidden",
-              opacity: 0,
-              pointerEvents: "none",
-              zIndex: -1,
-            }}
-            aria-hidden={true}
-          >
-            {React.createElement(preloadedComponent, {
-              onComplete: () => {},
-              isVisible: false,
-            })}
-          </div>
+          <ChapterPreloader
+            chapterNumber={preloadingChapter}
+            onComplete={() => {}} // Empty function since this is background rendering
+            isVisible={false}
+          />
         </ChapterErrorBoundary>
       )}
 
@@ -300,7 +269,6 @@ export const JonahJourney = () => {
                 setCurrentChapter(1);
                 setShowTransition(false);
                 setPreloadingChapter(null);
-                setIsNextChapterReady(false);
                 setPendingChapterCompletion(null);
               }}
               className="btn-divine"

@@ -46,15 +46,15 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
         ></div>
       </div>
 
-      <div className="max-w-2xl mx-auto space-y-6 relative z-10">
+      <div className="max-w-2xl mx-auto space-y-6 sm:space-y-8 relative z-10">
         {/* Guide Text */}
-        <div className="bg-card/80 backdrop-blur-sm border border-border rounded-lg p-6">
-          <h1 className="text-2xl font-cinzel font-bold text-center mb-4 text-divine">
+        <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-4 sm:p-6">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-pretendard font-bold text-center mb-4 sm:mb-6 text-divine">
             2장 - 요나 찾기
           </h1>
 
-          <div className="space-y-4">
-            <p className="text-lg leading-relaxed text-center">
+          <div className="space-y-4 sm:space-y-6">
+            <p className="text-base sm:text-lg leading-7 sm:leading-8 text-center">
               항구에서 배를 찾는 요나를 찾아라
             </p>
           </div>
@@ -62,10 +62,10 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
 
         {/* Questions */}
         {step === "verse" && (
-          <div className="bg-card/80 backdrop-blur-sm border border-border rounded-lg p-6">
-            <div className="space-y-6">
+          <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-4 sm:p-6">
+            <div className="space-y-6 sm:space-y-8">
               <div className="verse-text">
-                <p className="text-lg leading-relaxed">
+                <p className="text-base sm:text-lg leading-7 sm:leading-8">
                   "그러나 요나가 여호와의 얼굴을 피하려고 일어나 다시스로
                   도망하려 하여 욥바로 내려갔더니 마침 다시스로 가는 배를
                   만난지라 여호와의 얼굴을 피하여 그들과 함께 다시스로 가려고
@@ -74,7 +74,7 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
               </div>
 
               <div>
-                <h3 className="font-cinzel font-semibold text-lg mb-3">
+                <h3 className="font-pretendard font-semibold text-lg sm:text-xl mb-3 sm:mb-4">
                   이 말씀의 출처는?
                 </h3>
                 <QuestionInput
@@ -91,19 +91,19 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
         )}
 
         {step === "math" && (
-          <div className="bg-card/80 backdrop-blur-sm border border-border rounded-lg p-6">
-            <div className="space-y-6">
+          <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-4 sm:p-6">
+            <div className="space-y-6 sm:space-y-8">
               <div>
-                <h3 className="font-cinzel font-semibold text-lg mb-4 text-center">
+                <h3 className="font-pretendard font-semibold text-lg sm:text-xl mb-4 sm:mb-6 text-center">
                   배의 위치는 어디에?
                 </h3>
 
-                <div className="bg-muted/50 p-4 rounded-lg mb-4">
-                  <div className="space-y-2 text-lg">
+                <div className="bg-muted/50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6">
+                  <div className="space-y-3 sm:space-y-4 text-base sm:text-lg font-mono">
                     <div>8264 + 513231 = 145</div>
                     <div>2836 + 251343 = ?</div>
                   </div>
-                  <div className="text-sm text-muted-foreground mt-3">
+                  <div className="text-sm sm:text-base text-muted-foreground mt-3 sm:mt-4">
                     힌트: 얼굴 = 89, 배삯 = 78
                   </div>
                 </div>

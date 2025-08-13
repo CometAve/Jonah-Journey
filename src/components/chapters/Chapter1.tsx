@@ -21,16 +21,16 @@ export const Chapter1 = ({ onComplete, isVisible = true }: Chapter1Props) => {
     onComplete();
   };
   return (
-    <div className="min-h-screen chapter-bg-1 px-4 py-8">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="min-h-screen chapter-bg-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="max-w-2xl mx-auto space-y-6 sm:space-y-8">
         {/* Guide Text */}
-        <div className="bg-card/95 backdrop-blur-sm border border-border rounded-xl p-6 shadow-sm">
-          <h1 className="text-2xl font-pretendard font-bold text-center mb-4 text-primary">
+        <div className="bg-card/95 backdrop-blur-sm border border-border rounded-xl p-4 sm:p-6 shadow-sm">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-pretendard font-bold text-center mb-4 sm:mb-6 text-primary">
             1장 - 하나님의 부름
           </h1>
 
-          <div className="space-y-4">
-            <p className="text-base leading-relaxed text-center text-foreground">
+          <div className="space-y-4 sm:space-y-6">
+            <p className="text-base sm:text-lg leading-7 sm:leading-8 text-center text-foreground">
               요나를 찾아 설득하기 위해서는 아래의 말씀이 설득력이 있을 것 같다.
               <br />
               하지만 의심 많은 요나를 위해 말씀의 출처를 찾도록 하자.
@@ -40,17 +40,17 @@ export const Chapter1 = ({ onComplete, isVisible = true }: Chapter1Props) => {
 
         {/* Question Area */}
         {showQuestion && (
-          <div className="bg-card/95 backdrop-blur-sm border border-border rounded-xl p-6 shadow-sm">
-            <div className="space-y-6">
+          <div className="bg-card/95 backdrop-blur-sm border border-border rounded-xl p-4 sm:p-6 shadow-sm">
+            <div className="space-y-6 sm:space-y-8">
               <div className="verse-text">
-                <p className="text-base leading-relaxed">
-                  "잃어버린 어린 양 - 이와 같이 작은 자 중의 하나라도 잃는 것은
+                <p className="text-base sm:text-lg leading-7 sm:leading-8">
+                  "이와 같이 작은 자 중의 하나라도 잃는 것은
                   하늘에 계신 너희 아버지의 뜻이 아니니라"
                 </p>
               </div>
 
               <div>
-                <h3 className="font-pretendard font-semibold text-lg mb-3 text-foreground">
+                <h3 className="font-pretendard font-semibold text-lg sm:text-xl mb-3 sm:mb-4 text-foreground">
                   이 말씀의 출처는?
                 </h3>
                 <QuestionInput

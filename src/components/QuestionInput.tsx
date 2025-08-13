@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { CheckCircle, AlertCircle } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CheckCircle, AlertCircle } from "lucide-react";
 
 interface QuestionInputProps {
   questionId: string;
@@ -12,15 +12,15 @@ interface QuestionInputProps {
   className?: string;
 }
 
-export const QuestionInput = ({ 
-  questionId, 
+export const QuestionInput = ({
+  questionId,
   placeholder = "답을 입력하세요",
   onCorrectAnswer,
   validator,
   disabled = false,
-  className = ""
+  className = "",
 }: QuestionInputProps) => {
-  const [answer, setAnswer] = useState('');
+  const [answer, setAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showError, setShowError] = useState(false);
 
@@ -29,7 +29,7 @@ export const QuestionInput = ({
 
     const isValid = validator(answer);
     setIsCorrect(isValid);
-    
+
     if (isValid) {
       onCorrectAnswer(answer);
       setShowError(false);
@@ -40,44 +40,51 @@ export const QuestionInput = ({
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit();
     }
   };
 
   return (
-    <div className={`space-y-3 ${className}`}>
-      <div className="flex gap-2">
+    <div className={`space-y-4 sm:space-y-6 ${className}`}>
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <Input
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder={placeholder}
           disabled={disabled || isCorrect === true}
-          className={`scripture-input flex-1 ${
-            isCorrect === true ? 'border-green-500 bg-green-50' : 
-            isCorrect === false ? 'border-red-500' : ''
+          className={`scripture-input flex-1 text-base sm:text-lg ${
+            isCorrect === true
+              ? "border-green-500 bg-green-50"
+              : isCorrect === false
+              ? "border-red-500"
+              : ""
           }`}
         />
-        <Button 
+        <Button
           onClick={handleSubmit}
           disabled={disabled || isCorrect === true || !answer.trim()}
-          className="btn-divine"
+          className="btn-divine w-full sm:w-auto min-w-[80px] sm:min-w-[100px]"
         >
-          {isCorrect === true ? <CheckCircle className="w-4 h-4" /> : '확인'}
+          {isCorrect === true ? (
+            <CheckCircle className="w-5 h-5 sm:w-4 sm:h-4" />
+          ) : (
+            "확인"
+          )}
         </Button>
       </div>
-      
+
       {showError && (
-        <div className="flex items-center gap-2 text-red-600 text-sm">
-          <AlertCircle className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-red-600 text-sm sm:text-base p-3 sm:p-4 bg-red-50 rounded-lg">
+          <AlertCircle className="w-5 h-5 sm:w-4 sm:h-4 flex-shrink-0" />
           <span>틀렸습니다. 다시 시도해주세요.</span>
         </div>
       )}
-      
+
       {isCorrect === true && (
-        <div className="flex items-center gap-2 text-green-600 text-sm">
-          <CheckCircle className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-green-600 text-sm sm:text-base p-3 sm:p-4 bg-green-50 rounded-lg">
+          <CheckCircle className="w-5 h-5 sm:w-4 sm:h-4 flex-shrink-0" />
           <span>정답입니다!</span>
         </div>
       )}

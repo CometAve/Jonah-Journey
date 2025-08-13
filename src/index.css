@@ -1,4 +1,10 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+/* stylelint-disable at-rule-no-unknown, property-no-unknown, selector-pseudo-class-no-unknown */
+/* eslint-disable */
+/* 
+  This file uses Tailwind CSS directives (@tailwind, @apply, @layer) 
+  which are not recognized by standard CSS linters but are valid in a Tailwind CSS context.
+*/
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
 @tailwind base;
 @tailwind components;
@@ -51,10 +57,26 @@
     --ring: 210 100% 50%;
 
     /* Modern gradients */
-    --gradient-divine: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-heaven: linear-gradient(180deg, hsl(var(--heaven)), hsl(var(--secondary)));
-    --gradient-ocean: linear-gradient(180deg, hsl(var(--ocean-light)), hsl(var(--ocean)));
-    --gradient-storm: linear-gradient(45deg, hsl(var(--storm)), hsl(220 25% 30%));
+    --gradient-divine: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--primary-glow))
+    );
+    --gradient-heaven: linear-gradient(
+      180deg,
+      hsl(var(--heaven)),
+      hsl(var(--secondary))
+    );
+    --gradient-ocean: linear-gradient(
+      180deg,
+      hsl(var(--ocean-light)),
+      hsl(var(--ocean))
+    );
+    --gradient-storm: linear-gradient(
+      45deg,
+      hsl(var(--storm)),
+      hsl(220 25% 30%)
+    );
 
     /* Refined shadows */
     --shadow-soft: 0 4px 20px -4px hsl(var(--foreground) / 0.1);
@@ -130,45 +152,71 @@
 
   body {
     @apply bg-background text-foreground;
-    font-weight: 400;
-    line-height: 1.6;
+    @apply text-base sm:text-lg;
+    @apply font-normal leading-relaxed sm:leading-loose;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR",
+      "Malgun Gothic", sans-serif;
   }
 
-  /* iOS specific styles */
-  @supports (-webkit-touch-callout: none) {
+  /* Mobile-optimized typography */
+  @media (max-width: 640px) {
     body {
-      font-family: -apple-system, '산돌 고딕 네오1', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
-      font-size: 17px; /* 17pt equivalent */
+      @apply text-base leading-7; /* 16px with better line height for mobile */
     }
   }
 
-  /* Android/Non-iOS styles */
-  @supports not (-webkit-touch-callout: none) {
-    body {
-      font-family: 'Roboto', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-      font-size: 16px;
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Pretendard", sans-serif;
+    @apply font-semibold leading-tight;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Pretendard', sans-serif;
-    font-weight: 600;
-    line-height: 1.4;
+  /* Mobile-first heading sizes */
+  h1 {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+
+  h2 {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+
+  h3 {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+
+  /* Improved paragraph spacing for mobile */
+  p {
+    @apply mb-4 leading-7 sm:leading-8;
   }
 }
 
 @layer components {
-  /* Modern input styles */
+  /* Mobile-optimized input styles */
   .scripture-input {
-    @apply w-full p-4 text-base bg-input border border-border rounded-xl;
+    @apply w-full text-base sm:text-lg;
+    @apply p-4 sm:p-6;
+    @apply bg-input border border-border rounded-xl;
     @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
     @apply shadow-sm;
-    font-family: 'Pretendard', sans-serif;
+    min-height: 48px;
+    font-family: "Pretendard", sans-serif;
+  }
+
+  @media (min-width: 640px) {
+    .scripture-input {
+      min-height: 56px;
+    }
   }
 
   .verse-text {
-    @apply p-6 bg-card rounded-xl border border-border shadow-sm;
-    @apply text-base leading-relaxed text-foreground;
+    @apply p-4 sm:p-6;
+    @apply bg-card rounded-xl border border-border shadow-sm;
+    @apply text-base sm:text-lg text-foreground;
+    @apply leading-7 sm:leading-8;
     background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--accent)));
     border-left: 4px solid hsl(var(--primary));
   }
@@ -192,12 +240,21 @@
     background: var(--gradient-heaven);
   }
 
-  /* Modern button variants */
+  /* Mobile-optimized button variants */
   .btn-divine {
-    @apply px-6 py-3 rounded-xl font-medium text-primary-foreground;
+    @apply px-6 py-4 sm:px-8 sm:py-5;
+    @apply rounded-xl font-medium text-primary-foreground;
+    @apply text-base sm:text-lg;
+    min-height: 48px;
     background: hsl(var(--primary));
     box-shadow: var(--shadow-soft);
-    font-family: 'Pretendard', sans-serif;
+    font-family: "Pretendard", sans-serif;
+  }
+
+  @media (min-width: 640px) {
+    .btn-divine {
+      min-height: 56px;
+    }
   }
 
   .btn-divine:hover {
@@ -205,16 +262,29 @@
   }
 
   .btn-ocean {
-    @apply px-6 py-3 rounded-xl font-medium text-white;
-    background: linear-gradient(135deg, hsl(var(--ocean)), hsl(var(--ocean-light)));
+    @apply px-6 py-4 sm:px-8 sm:py-5;
+    @apply rounded-xl font-medium text-white;
+    @apply text-base sm:text-lg;
+    min-height: 48px;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--ocean)),
+      hsl(var(--ocean-light))
+    );
     box-shadow: var(--shadow-soft);
-    font-family: 'Pretendard', sans-serif;
+    font-family: "Pretendard", sans-serif;
+  }
+
+  @media (min-width: 640px) {
+    .btn-ocean {
+      min-height: 56px;
+    }
   }
 }
 
 @layer utilities {
   .font-pretendard {
-    font-family: 'Pretendard', sans-serif;
+    font-family: "Pretendard", sans-serif;
   }
 
   .text-divine {
@@ -259,25 +329,52 @@
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
   @keyframes rain-fall {
-    0% { transform: translateY(-100vh); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(100vh); opacity: 0; }
+    0% {
+      transform: translateY(-100vh);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
   }
 
   @keyframes wave {
-    0%, 100% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.1) translateY(-5px); }
+    0%,
+    100% {
+      transform: scale(1) translateY(0);
+    }
+    50% {
+      transform: scale(1.1) translateY(-5px);
+    }
   }
 
   @keyframes whale-rise {
-    0%, 100% { transform: translateX(-50%) translateY(20px); opacity: 0.7; }
-    50% { transform: translateX(-50%) translateY(-10px); opacity: 1; }
+    0%,
+    100% {
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateX(-50%) translateY(-10px);
+      opacity: 1;
+    }
   }
 
   .divine-glow {

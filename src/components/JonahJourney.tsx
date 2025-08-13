@@ -269,13 +269,15 @@ export const JonahJourney = () => {
       {/* Journey Complete Message */}
       {isJourneyComplete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-divine/20 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-lg p-8 mx-4 text-center max-w-md">
-            <div className="divine-glow mb-4">
-              <h2 className="text-2xl font-pretendard font-bold text-divine">
+          <div className="bg-card border border-border rounded-xl p-6 sm:p-8 mx-4 text-center max-w-md">
+            <div className="divine-glow mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-pretendard font-bold text-divine">
                 🎉 여정 완성!
               </h2>
             </div>
-            <p className="text-lg mb-6">요나의 여정을 모두 완주하셨습니다!</p>
+            <p className="text-base sm:text-lg mb-6 leading-7 sm:leading-8">
+              요나의 여정을 모두 완주하셨습니다!
+            </p>
             <Button
               onClick={() => {
                 resetProgress();
@@ -284,7 +286,7 @@ export const JonahJourney = () => {
                 setPreloadingChapter(null);
                 setPendingChapterCompletion(null);
               }}
-              className="btn-divine"
+              className="btn-divine w-full sm:w-auto"
             >
               처음부터 다시 시작
             </Button>

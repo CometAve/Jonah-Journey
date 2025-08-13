@@ -49,35 +49,104 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
 
   return (
     <div className="min-h-screen chapter-bg-3 px-4 py-8 relative overflow-hidden">
-      {/* Storm animations */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Rain drops */}
-        <div className="rain absolute top-0 left-1/4 w-0.5 h-12 bg-blue-200 opacity-60"></div>
-        <div
-          className="rain absolute top-0 left-1/2 w-0.5 h-8 bg-blue-200 opacity-40"
-          style={{ animationDelay: "0.3s" }}
-        ></div>
-        <div
-          className="rain absolute top-0 right-1/3 w-0.5 h-10 bg-blue-200 opacity-50"
-          style={{ animationDelay: "0.6s" }}
-        ></div>
+      {/* Storm animations (dense shower + layered waves + drifting whale/boat) */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Dense shower layers */}
+        <div className="shower-layer" aria-hidden>
+          {Array.from({ length: 18 }).map((_, i) => (
+            <div
+              key={`sh1-${i}`}
+              className={`shower ${i % 3 === 0 ? "slower" : i % 3 === 1 ? "" : "faster"}`}
+              style={{
+                left: `${(i * 7) % 100}%`,
+                animationDelay: `${(i * 0.12) % 1.2}s`,
+              }}
+            />
+          ))}
+        </div>
+        <div className="shower-layer" aria-hidden>
+          {Array.from({ length: 14 }).map((_, i) => (
+            <div
+              key={`sh2-${i}`}
+              className={`shower ${i % 2 === 0 ? "slower" : "faster"}`}
+              style={{
+                left: `${(i * 11 + 5) % 100}%`,
+                animationDelay: `${(i * 0.15) % 1.2}s`,
+              }}
+            />
+          ))}
+        </div>
 
-        {/* Waves */}
-        <div className="stormy-sea absolute bottom-10 left-0 right-0 h-20 bg-ocean/30 rounded-full"></div>
-        <div
-          className="stormy-sea absolute bottom-16 left-10 right-10 h-16 bg-ocean-light/20 rounded-full"
-          style={{ animationDelay: "1s" }}
-        ></div>
+        {/* Back wave layer */}
+        <div className="wave-layer z-0" aria-hidden>
+          <div className="wave-content wave-sway-slow">
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 1200 200"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 90 C 150 130, 350 50, 600 90 C 850 130, 1050 50, 1200 90 L 1200 200 L 0 200 Z"
+                fill="hsl(var(--ocean) / 0.25)"
+              />
+            </svg>
+          </div>
+        </div>
 
-        {/* Whale */}
-        <div className="whale-appear absolute bottom-32 left-1/2 transform -translate-x-1/2 w-16 h-8 bg-whale rounded-full opacity-70">
-          <span className="absolute inset-0 flex items-center justify-center text-lg">
-            🐋
-          </span>
+        {/* Mid wave layer (whale will drift between back and front) */}
+        <div className="wave-layer z-10" aria-hidden>
+          <div className="wave-content wave-sway">
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 1200 200"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 100 C 200 150, 400 60, 650 95 C 900 130, 1050 70, 1200 100 L 1200 200 L 0 200 Z"
+                fill="hsl(var(--ocean) / 0.35)"
+              />
+            </svg>
+          </div>
+        </div>
+
+  {/* Whale drifting freely behind front wave (moved to right side) */}
+        <div className="absolute bottom-32 left-[76%] z-20 pointer-events-none">
+          <div className="actor-sway">
+            <span className="whale-bob text-6xl sm:text-7xl md:text-8xl select-none">
+              🐋
+            </span>
+          </div>
+        </div>
+
+        {/* Front wave layer (partially covers whale) */}
+        <div className="wave-layer z-30" aria-hidden>
+          <div className="wave-content wave-sway-fast">
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 1200 200"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0 110 C 180 155, 420 70, 700 105 C 960 135, 1100 85, 1200 110 L 1200 200 L 0 200 Z"
+                fill="hsl(var(--ocean-light) / 0.5)"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Boat floating on the front wave (moved to left side, behind front wave) */}
+        <div className="absolute bottom-36 left-[18%] z-20 pointer-events-none">
+          <div className="actor-sway-fast">
+            <span className="boat-bob">
+              <span className="flip-x">
+                <span className="boat-tilt text-8xl sm:text-9xl md:text-9xl select-none">⛵️</span>
+              </span>
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto space-y-6 relative z-10">
+      <div className="max-w-2xl mx-auto space-y-6 relative z-50">
         {/* Guide Text */}
         <div className="bg-card/90 backdrop-blur-sm border border-border rounded-lg p-6">
           <h1 className="text-2xl font-cinzel font-bold text-center mb-4 text-divine">

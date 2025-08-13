@@ -372,6 +372,98 @@
     }
   }
 
+  /* Intro Animation Keyframes */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulseGlow {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 15px hsl(var(--divine) / 0.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 30px hsl(var(--divine) / 0.6));
+    }
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes gentleFloat {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes expandAndFade {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    70% {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.3);
+    }
+  }
+
+  @keyframes typewriter {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  .intro-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .intro-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .intro-breathe {
+    animation: breathe 3s ease-in-out infinite;
+  }
+
+  .intro-gentle-float {
+    animation: gentleFloat 4s ease-in-out infinite;
+  }
+
+  .intro-expand-fade {
+    animation: expandAndFade 1.5s ease-out forwards;
+  }
+
+  .intro-typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typewriter 2s steps(20, end) forwards;
+  }
+
   .stormy-sea {
     animation: wave 2s ease-in-out infinite;
   }

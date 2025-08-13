@@ -36,6 +36,9 @@ jobs:
           git config --local user.name "GitHub Action"
 
       - name: Deploy to gh-pages
-        run: npm run deploy
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          npm run deploy
         env:
           NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

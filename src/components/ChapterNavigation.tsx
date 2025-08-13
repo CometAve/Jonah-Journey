@@ -1,6 +1,8 @@
 import { useProgress } from "@/hooks/useProgress";
 import { Button } from "@/components/ui/button";
 import { Lock, CheckCircle } from "lucide-react";
+import { useCallback, useMemo } from "react";
+
 interface ChapterNavigationProps {
   currentChapter: number;
   onChapterSelect: (chapter: number) => void;
@@ -25,6 +27,25 @@ export const ChapterNavigation = ({
     Array.from(progress.completedChapters)
   );
 
+  // Memoize completed chapters array to prevent unnecessary re-renders
+  const completedChaptersArray = useMemo(
+    () => Array.from(progress.completedChapters),
+    [progress.completedChapters]
+  );
+
+  const handleChapterClick = useCallback(
+    (chapterNum: number) => {
+      const isUnlocked = isChapterUnlocked(chapterNum);
+      const isCompleted = progress.completedChapters.has(chapterNum);
+
+      // Allow navigation only if chapter is unlocked and not completed
+      if (isUnlocked && !isCompleted) {
+        onChapterSelect(chapterNum);
+      }
+    },
+    [isChapterUnlocked, progress.completedChapters, onChapterSelect]
+  );
+
   return (
     <div className="bg-card/95 backdrop-blur-sm border border-border rounded-xl p-5 mb-6 shadow-sm">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -33,25 +54,36 @@ export const ChapterNavigation = ({
           const isUnlocked = isChapterUnlocked(chapterNum);
           const isCompleted = progress.completedChapters.has(chapterNum);
           const isCurrent = currentChapter === chapterNum;
+          const isClickable = isUnlocked && !isCompleted;
+
           return (
             <Button
               key={chapterNum}
               variant={isCurrent ? "default" : "outline"}
               size="sm"
               className={`relative text-xs p-3 h-auto flex flex-col items-center gap-1.5 rounded-lg ${
-                !isUnlocked
+                !isClickable
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:shadow-md"
-              } ${isCurrent ? "btn-divine" : "hover:bg-accent"}`}
-              onClick={() => isUnlocked && onChapterSelect(chapterNum)}
-              disabled={!isUnlocked}
+              } ${isCurrent ? "btn-divine" : "hover:bg-accent"} ${
+                isCompleted ? "bg-green-50 border-green-200 text-green-800" : ""
+              }`}
+              onClick={() => handleChapterClick(chapterNum)}
+              disabled={!isClickable}
+              title={
+                isCompleted
+                  ? "완료된 챕터입니다"
+                  : !isUnlocked
+                  ? "잠겨있는 챕터입니다"
+                  : `${chapterNum}장으로 이동`
+              }
             >
               <div className="flex items-center gap-1">
                 <span className="font-pretendard font-semibold">
                   {chapterNum}
                 </span>
                 {isCompleted && (
-                  <CheckCircle className="w-3 h-3 text-primary" />
+                  <CheckCircle className="w-3 h-3 text-green-600" />
                 )}
                 {!isUnlocked && <Lock className="w-3 h-3" />}
               </div>

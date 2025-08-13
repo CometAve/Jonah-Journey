@@ -1,5 +1,5 @@
 import { useProgress } from "@/hooks/useProgress";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { ChapterNavigation } from "./ChapterNavigation";
 import { ChapterTransition } from "./ChapterTransition";
 import { ChapterErrorBoundary } from "./ChapterErrorBoundary";
@@ -47,80 +47,84 @@ export const JonahJourney = () => {
     }
   }, [progress.currentChapter, showTransition]);
 
-  const handleIntroComplete = () => {
+  const handleIntroComplete = useCallback(() => {
     setShowIntro(false);
     saveIntroSeen();
-  };
+  }, [saveIntroSeen]);
 
-  const handleChapterComplete = (completedChapter: number) => {
-    // Validate chapter number
-    if (completedChapter < 1 || completedChapter > 6) {
-      console.error(`Invalid chapter number: ${completedChapter}`);
-      return;
-    }
+  const handleChapterComplete = useCallback(
+    (completedChapter: number) => {
+      // Validate chapter number
+      if (completedChapter < 1 || completedChapter > 6) {
+        console.error(`Invalid chapter number: ${completedChapter}`);
+        return;
+      }
 
-    // Store which chapter was completed for later processing
-    setPendingChapterCompletion(completedChapter);
+      // Store which chapter was completed for later processing
+      setPendingChapterCompletion(completedChapter);
 
-    // Start preloading the next chapter immediately if not the last chapter
-    if (completedChapter < 6) {
-      const nextChapter = completedChapter + 1;
-      setPreloadingChapter(nextChapter);
-    }
+      // Start preloading the next chapter immediately if not the last chapter
+      if (completedChapter < 6) {
+        const nextChapter = completedChapter + 1;
+        setPreloadingChapter(nextChapter);
+      }
 
-    // Show transition illustration of the completed chapter before moving to next chapter
-    if (completedChapter < 6) {
-      const currentChapterImages = {
-        1: {
-          src: "/lovable-uploads/68415989-ff18-4233-8e12-4871ad40fd65.png",
-          alt: "예수님과 잃어버린 양",
-        },
-        2: {
-          src: "/lovable-uploads/48529cb8-9277-4f00-bc42-3e3452123938.png",
-          alt: "요나가 배삯을 주며 배에 오르는 모습",
-        },
-        3: {
-          src: "/lovable-uploads/956f29a7-f225-4c2e-8feb-f1e655b53f5f.png",
-          alt: "폭풍우 속에서 고래에게 삼켜지는 요나",
-        },
-        4: {
-          src: "/lovable-uploads/a81cba74-f499-40e9-ab69-a0f520bcf468.png",
-          alt: "물고기 뱃속에서 기도하는 요나",
-        },
-        5: {
-          src: "/lovable-uploads/83aa194f-6bc3-4253-b395-6ddacd66ef29.png",
-          alt: "니느웨 성에서 전도하는 요나",
-        },
-      };
+      // Show transition illustration of the completed chapter before moving to next chapter
+      if (completedChapter < 6) {
+        const currentChapterImages = {
+          1: {
+            src: "/lovable-uploads/68415989-ff18-4233-8e12-4871ad40fd65.png",
+            alt: "예수님과 잃어버린 양",
+          },
+          2: {
+            src: "/lovable-uploads/48529cb8-9277-4f00-bc42-3e3452123938.png",
+            alt: "요나가 배삯을 주며 배에 오르는 모습",
+          },
+          3: {
+            src: "/lovable-uploads/956f29a7-f225-4c2e-8feb-f1e655b53f5f.png",
+            alt: "폭풍우 속에서 고래에게 삼켜지는 요나",
+          },
+          4: {
+            src: "/lovable-uploads/a81cba74-f499-40e9-ab69-a0f520bcf468.png",
+            alt: "물고기 뱃속에서 기도하는 요나",
+          },
+          5: {
+            src: "/lovable-uploads/83aa194f-6bc3-4253-b395-6ddacd66ef29.png",
+            alt: "니느웨 성에서 전도하는 요나",
+          },
+        };
 
-      const imageData =
-        currentChapterImages[
-          completedChapter as keyof typeof currentChapterImages
-        ];
-      if (imageData) {
-        setTransitionImage(imageData);
-        setShowTransition(true);
+        const imageData =
+          currentChapterImages[
+            completedChapter as keyof typeof currentChapterImages
+          ];
+        if (imageData) {
+          setTransitionImage(imageData);
+          setShowTransition(true);
+        } else {
+          // If no image for this chapter, complete immediately
+          completeChapter(completedChapter);
+          setPendingChapterCompletion(null);
+          setPreloadingChapter(null);
+        }
       } else {
-        // If no image for this chapter, complete immediately
+        // Chapter 6 is the last chapter, complete immediately
         completeChapter(completedChapter);
         setPendingChapterCompletion(null);
         setPreloadingChapter(null);
       }
-    } else {
-      // Chapter 6 is the last chapter, complete immediately
-      completeChapter(completedChapter);
-      setPendingChapterCompletion(null);
-      setPreloadingChapter(null);
-    }
-  };
+    },
+    [completeChapter]
+  );
 
-  const handleTransitionComplete = () => {
+  const handleTransitionComplete = useCallback(() => {
     setShowTransition(false);
 
     // Now complete the chapter and update progress
     if (pendingChapterCompletion !== null) {
       try {
         completeChapter(pendingChapterCompletion);
+        console.log(`Chapter ${pendingChapterCompletion} marked as completed`);
       } catch (error) {
         console.error("Error completing chapter:", error);
       } finally {
@@ -128,19 +132,25 @@ export const JonahJourney = () => {
         setPreloadingChapter(null);
       }
     }
-  };
+  }, [pendingChapterCompletion, completeChapter]);
 
-  const handleChapterSelect = (chapter: number) => {
-    if (isChapterUnlocked(chapter)) {
-      setCurrentChapter(chapter);
-    }
-  };
+  const handleChapterSelect = useCallback(
+    (chapter: number) => {
+      if (
+        isChapterUnlocked(chapter) &&
+        !progress.completedChapters.has(chapter)
+      ) {
+        setCurrentChapter(chapter);
+      }
+    },
+    [isChapterUnlocked, progress.completedChapters]
+  );
 
-  const handlePreloadedChapterReady = () => {
+  const handlePreloadedChapterReady = useCallback(() => {
     // This function can be removed as we're using ChapterPreloader directly
-  };
+  }, []);
 
-  const renderCurrentChapter = () => {
+  const renderCurrentChapter = useCallback(() => {
     switch (currentChapter) {
       case 1:
         return (
@@ -192,8 +202,9 @@ export const JonahJourney = () => {
           />
         );
     }
-  };
+  }, [currentChapter, handleChapterComplete]);
 
+  // Memoize isJourneyComplete to prevent unnecessary re-calculations
   const isJourneyComplete = progress.completedChapters.has(6);
 
   if (showIntro) {

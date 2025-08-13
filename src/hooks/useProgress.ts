@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export interface Progress {
   currentChapter: number;
@@ -75,7 +75,7 @@ export const useProgress = () => {
     setHasSeenIntro(true);
   };
 
-  const completeChapter = (chapter: number) => {
+  const completeChapter = useCallback((chapter: number) => {
     console.log(`Completing chapter ${chapter}`);
 
     setProgress((prev) => {
@@ -85,10 +85,9 @@ export const useProgress = () => {
         return prev;
       }
 
-      const newCompletedChapters = new Set([
-        ...prev.completedChapters,
-        chapter,
-      ]);
+      // Create a completely new Set to ensure React detects the change
+      const newCompletedChapters = new Set(prev.completedChapters);
+      newCompletedChapters.add(chapter);
 
       // Only advance to next chapter if current chapter is less than or equal to the completed chapter
       const newCurrentChapter =
@@ -109,9 +108,9 @@ export const useProgress = () => {
 
       return newProgress;
     });
-  };
+  }, []);
 
-  const saveAnswer = (questionId: string, answer: string) => {
+  const saveAnswer = useCallback((questionId: string, answer: string) => {
     setProgress((prev) => ({
       ...prev,
       answers: {
@@ -119,19 +118,22 @@ export const useProgress = () => {
         [questionId]: answer,
       },
     }));
-  };
+  }, []);
 
-  const isChapterUnlocked = (chapter: number): boolean => {
-    if (chapter === 1) return true;
-    return progress.completedChapters.has(chapter - 1);
-  };
+  const isChapterUnlocked = useCallback(
+    (chapter: number): boolean => {
+      if (chapter === 1) return true;
+      return progress.completedChapters.has(chapter - 1);
+    },
+    [progress.completedChapters]
+  );
 
-  const resetProgress = () => {
+  const resetProgress = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem("jonah-intro-seen");
     setProgress(initialProgress);
     setHasSeenIntro(false);
-  };
+  }, []);
 
   return {
     progress,

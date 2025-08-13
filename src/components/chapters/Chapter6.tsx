@@ -8,7 +8,9 @@ interface Chapter6Props {
   isVisible?: boolean;
 }
 export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
-  const [currentPhase, setCurrentPhase] = useState<"verse" | "illustration" | "video" | "puzzle">("verse");
+  const [currentPhase, setCurrentPhase] = useState<
+    "verse" | "illustration" | "video" | "puzzle"
+  >("verse");
   const { saveAnswer, completeChapter } = useProgress();
 
   // 일러스트 타이머 설정 (ChapterTransition과 유사한 2.5초)
@@ -111,7 +113,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
 
       <div className="max-w-2xl mx-auto space-y-6 relative z-20">
         {/* Guide Text */}
-        <motion.div 
+        <motion.div
           className="bg-card/80 backdrop-blur-sm border border-border rounded-lg p-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -122,7 +124,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
           </h1>
         </motion.div>
 
-  <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
           {/* Verse Phase - 처음 시작 */}
           {currentPhase === "verse" && (
             <motion.div
@@ -137,8 +139,8 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                 <div className="verse-text">
                   <p className="text-lg leading-relaxed">
                     "하물며 이 큰 성읍 니느웨에는 좌우를 분변하지 못하는 자가
-                    십이만명이요 가축도 많이 있나니 내가 어찌 아끼지 아니하겠느냐
-                    하시니라"
+                    십이만명이요 가축도 많이 있나니 내가 어찌 아끼지
+                    아니하겠느냐 하시니라"
                   </p>
                 </div>
 
@@ -196,19 +198,47 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                   늑대와 배 태우기 퀴즈
                 </h3>
 
-                <div className="aspect-video bg-black rounded-lg overflow-hidden">
+                <div className="aspect-video bg-black rounded-lg overflow-hidden relative">
                   <iframe
-                    src="https://www.youtube.com/embed/Ikfb3P8uIkA?si=bW4oVoQ-1gLI9RPW&end=52&controls=1&disablekb=1&fs=0&modestbranding=1"
+                    src="https://www.youtube.com/embed/Ikfb3P8uIkA?si=bW4oVoQ-1gLI9RPW&end=52&controls=0&disablekb=1&fs=0&modestbranding=1&rel=0&iv_load_policy=3"
                     title="늑대와 배 태우기 퀴즈"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen={false}
                     className="w-full h-full"
+                    style={{ pointerEvents: "auto" }}
                   />
+
+                  {/* 커스텀 풀스크린 버튼 */}
+                  <button
+                    onClick={() => {
+                      const iframe = document.querySelector("iframe");
+                      if (iframe?.requestFullscreen) {
+                        iframe.requestFullscreen();
+                      }
+                    }}
+                    className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white p-2 rounded-lg transition-all duration-200 z-10"
+                    title="전체화면으로 보기"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 1 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                    </svg>
+                  </button>
+
+                  {/* 52초 이후 오버레이로 추가 보호 */}
+                  <div className="absolute inset-0 pointer-events-none" />
                 </div>
 
                 <div className="text-center">
-                  <motion.button 
-                    onClick={handleVideoComplete} 
+                  <motion.button
+                    onClick={handleVideoComplete}
                     className="btn-divine"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -237,14 +267,14 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
 
                 <div className="bg-muted/50 p-6 rounded-lg">
                   <p className="text-lg leading-relaxed mb-4">
-                    여기 늑대, 양, 양배추가 있습니다. 뱃사공은 늑대, 양, 양배추를
-                    모두 강 건너로 옮겨야 합니다.
+                    여기 늑대, 양, 양배추가 있습니다. 뱃사공은 늑대, 양,
+                    양배추를 모두 강 건너로 옮겨야 합니다.
                   </p>
 
                   <div className="space-y-3 text-base">
                     <p>
-                      • 어느 한 쪽에 늑대와 양만 남게 된다면, 늑대가 양을 잡아먹을
-                      것입니다
+                      • 어느 한 쪽에 늑대와 양만 남게 된다면, 늑대가 양을
+                      잡아먹을 것입니다
                     </p>
                     <p>
                       • 양과 양배추만 남게 된다면 양이 양배추를 모두 먹어버릴
@@ -257,12 +287,13 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                   </div>
 
                   <p className="text-lg leading-relaxed mt-4 font-semibold text-divine">
-                    늑대와 양, 양배추 모두를 성공적으로 옮기는 방법은 무엇일까요?
+                    늑대와 양, 양배추 모두를 성공적으로 옮기는 방법은
+                    무엇일까요?
                   </p>
                 </div>
 
                 <div className="text-center space-y-4">
-                  <motion.p 
+                  <motion.p
                     className="text-lg text-divine font-semibold"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

@@ -152,7 +152,9 @@ export const Chapter4 = ({ onComplete, isVisible = true }: Chapter4Props) => {
 
                 <div className="bg-divine/10 p-4 rounded-lg">
                   <p className="font-semibold text-divine">
-                    틀린 그림찾기를 완료한 후 얻은 단서를 입력하세요
+                    틀린 그림찾기를 완료한 후
+                    <br />
+                    얻은 단서를 입력하세요
                   </p>
                 </div>
               </div>

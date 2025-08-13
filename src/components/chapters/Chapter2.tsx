@@ -451,19 +451,22 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
           </div>
         </div>
 
+        {/* Bible Verse - Always visible */}
+        <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-4 sm:p-6">
+          <div className="verse-text">
+            <p className="text-base sm:text-lg leading-7 sm:leading-8">
+              "그러나 요나가 여호와의 얼굴을 피하려고 일어나 다시스로 도망하려
+              하여 욥바로 내려갔더니 마침 다시스로 가는 배를 만난지라 여호와의
+              얼굴을 피하여 그들과 함께 다시스로 가려고 배삯을 주고 배에
+              올랐더라"
+            </p>
+          </div>
+        </div>
+
         {/* Questions */}
         {step === "verse" && (
           <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-4 sm:p-6">
             <div className="space-y-6 sm:space-y-8">
-              <div className="verse-text">
-                <p className="text-base sm:text-lg leading-7 sm:leading-8">
-                  "그러나 요나가 여호와의 얼굴을 피하려고 일어나 다시스로
-                  도망하려 하여 욥바로 내려갔더니 마침 다시스로 가는 배를
-                  만난지라 여호와의 얼굴을 피하여 그들과 함께 다시스로 가려고
-                  배삯을 주고 배에 올랐더라"
-                </p>
-              </div>
-
               <div>
                 <h3 className="font-pretendard font-semibold text-lg sm:text-xl mb-3 sm:mb-4">
                   이 말씀의 출처는?

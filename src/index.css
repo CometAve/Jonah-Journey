@@ -799,7 +799,9 @@
     animation-iteration-count: infinite;
     will-change: transform;
   }
-  .sheep-scale { display: inline-block; }
+  .sheep-scale {
+    display: inline-block;
+  }
   .sheep-wander {
     display: inline-block;
     animation-name: sheep-wander;
@@ -837,9 +839,20 @@
   }
 
   @keyframes sheep-wander {
-    0%   { transform: translate(0, 0) rotate(-1deg); }
-    50%  { transform: translate(var(--wander-x, 6px), var(--wander-y, -4px)) rotate(1deg); }
-    100% { transform: translate(calc(var(--wander-x, 6px) * -0.6), calc(var(--wander-y, -4px) * -0.6)) rotate(-1.2deg); }
+    0% {
+      transform: translate(0, 0) rotate(-1deg);
+    }
+    50% {
+      transform: translate(var(--wander-x, 6px), var(--wander-y, -4px))
+        rotate(1deg);
+    }
+    100% {
+      transform: translate(
+          calc(var(--wander-x, 6px) * -0.6),
+          calc(var(--wander-y, -4px) * -0.6)
+        )
+        rotate(-1.2deg);
+    }
   }
 
   /* Respect reduced motion preferences */
@@ -849,8 +862,8 @@
     .cloud-drift-fast,
     .sun,
     .sheep-bob,
-  .sheep-runner,
-  .sheep-wander {
+    .sheep-runner,
+    .sheep-wander {
       animation: none !important;
     }
   }
@@ -964,6 +977,313 @@
     }
     to {
       transform: rotate(360deg);
+    }
+  }
+}
+
+/* ===== Chapter 2 Harbor + Seagulls ===== */
+@layer utilities {
+  .harbor-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0; /* fixed at bottom; do not move entire harbor */
+    height: 40vh; /* occupies bottom area below sky */
+    pointer-events: none;
+    z-index: 1;
+    /* Pier positioning variables */
+    --pier-bottom: 22vh;
+    --pier-height: 22px;
+  }
+
+  .harbor-water {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 22vh;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--ocean-light)) 0%,
+      hsl(var(--ocean)) 100%
+    );
+    box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.06) inset;
+    opacity: 0.95;
+  }
+
+  .wave-cap {
+    position: absolute;
+    width: 48px;
+    height: 10px;
+    border-radius: 9999px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0) 70%
+    );
+    animation: cap-bob 3.6s ease-in-out infinite;
+    opacity: 0.7;
+  }
+  @keyframes cap-bob {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-6px) translateX(8px);
+      opacity: 0.9;
+    }
+  }
+
+  .harbor-pier {
+    position: absolute;
+    left: 4vw;
+    right: 4vw;
+    bottom: var(--pier-bottom); /* pier baseline */
+    height: 22px;
+    background: linear-gradient(180deg, #8b5e3c, #6b4226);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+  }
+
+  .harbor-post {
+    position: absolute;
+    bottom: var(--pier-bottom); /* align with pier baseline */
+    width: 10px;
+    height: 40px;
+    background: linear-gradient(180deg, #795338, #573a25);
+    border-radius: 3px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+  }
+
+  .harbor-boat {
+    position: absolute;
+    bottom: 20vh;
+    font-size: clamp(24px, 6vw, 48px);
+    z-index: 2;
+  }
+
+  .harbor-buildings {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(
+      var(--pier-bottom) + var(--pier-height) - 65px
+    ); /* 2px overlap over deck */
+    height: 24vh;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .building-icon {
+    position: absolute;
+    bottom: 0;
+    color: rgba(30, 41, 59, 0.6); /* stroke color for outlines */
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12));
+  }
+  .building {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(180deg, #dfe7ef, #c9d6e2);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+  .building::before {
+    /* roof */
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: -10px;
+    height: 12px;
+    border-radius: 4px 4px 0 0;
+    background: linear-gradient(180deg, #9aaec3, #7f97ae);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  .building::after {
+    /* windows band */
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 30%;
+    height: 10px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(70, 90, 120, 0.35) 0 16px,
+      rgba(70, 90, 120, 0.12) 16px 26px
+    );
+    opacity: 0.8;
+  }
+
+  /* Per-building subtle color variations */
+  .building.b1 {
+    background: linear-gradient(180deg, #e7eef6, #d1ddea);
+  }
+  .building.b2 {
+    background: linear-gradient(180deg, #e8f1f8, #cfe0ed);
+  }
+  .building.b3 {
+    background: linear-gradient(180deg, #e9f4f5, #d0e7ea);
+  }
+  .building.b4 {
+    background: linear-gradient(180deg, #eef2f6, #d7e0ea);
+  }
+  .building.b5 {
+    background: linear-gradient(180deg, #f1f4f7, #dbe3ec);
+  }
+  .building.b6 {
+    background: linear-gradient(180deg, #eaf2f9, #d4e1ee);
+  }
+
+  .lighthouse {
+    position: absolute;
+    bottom: 0; /* default baseline for building row */
+    width: 28px;
+    height: 12vh; /* roughly half the previous height */
+    background: linear-gradient(180deg, #ffffff, #e8edf3);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+    z-index: 2;
+  }
+  /* When placed as standalone on the pier */
+  .lighthouse-on-pier {
+    bottom: calc(var(--pier-bottom) + var(--pier-height));
+  }
+  .lighthouse::before {
+    /* top cap */
+    content: "";
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    top: -10px;
+    height: 10px;
+    border-radius: 6px 6px 0 0;
+    background: #a02b2b;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+  .lighthouse::after {
+    /* beacon glow */
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffd966;
+    box-shadow: 0 0 12px 6px rgba(255, 217, 102, 0.6),
+      0 0 24px 12px rgba(255, 217, 102, 0.25);
+    animation: beacon 2.8s ease-in-out infinite;
+  }
+  @keyframes beacon {
+    0%,
+    100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .seagull-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .seagull {
+    position: absolute;
+    left: -10vw;
+    animation-name: gull-fly;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+    color: #f5f8fb; /* wing stroke color */
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12))
+      drop-shadow(0 3px 6px rgba(0, 0, 0, 0.12));
+  }
+  .seagull.reverse {
+    left: auto;
+    right: -10vw;
+    animation-name: gull-fly-reverse;
+  }
+  .gull-svg {
+    display: block;
+  }
+  .gull-wing.left {
+    animation: wing-flap 0.9s ease-in-out infinite;
+    transform-origin: 32px 16px;
+  }
+  .gull-wing.right {
+    animation: wing-flap 0.9s ease-in-out infinite reverse;
+    transform-origin: 32px 16px;
+  }
+  .gull-wing .tip {
+    stroke: #1a1a1a;
+    stroke-width: 2.2px;
+    stroke-linecap: round;
+    /* Only draw the outer 12% of the curve as the black tip */
+    stroke-dasharray: 12 88; /* pathLength=100 */
+    stroke-dashoffset: 0;
+  }
+  @keyframes wing-flap {
+    0%,
+    100% {
+      transform: rotate(8deg);
+    }
+    50% {
+      transform: rotate(-12deg);
+    }
+  }
+  @keyframes gull-fly {
+    0% {
+      transform: translateX(0) translateY(0) rotate(0deg);
+    }
+    20% {
+      transform: translateX(30vw) translateY(-2vh) rotate(2deg);
+    }
+    40% {
+      transform: translateX(60vw) translateY(1vh) rotate(-2deg);
+    }
+    60% {
+      transform: translateX(80vw) translateY(-1.5vh) rotate(1deg);
+    }
+    100% {
+      transform: translateX(110vw) translateY(0) rotate(0deg);
+    }
+  }
+  @keyframes gull-fly-reverse {
+    0% {
+      transform: translateX(0) translateY(0) rotate(0deg);
+    }
+    20% {
+      transform: translateX(-30vw) translateY(-2vh) rotate(-2deg);
+    }
+    40% {
+      transform: translateX(-60vw) translateY(1vh) rotate(2deg);
+    }
+    60% {
+      transform: translateX(-80vw) translateY(-1.5vh) rotate(-1deg);
+    }
+    100% {
+      transform: translateX(-110vw) translateY(0) rotate(0deg);
+    }
+  }
+
+  /* Reduced motion for new elements */
+  @media (prefers-reduced-motion: reduce) {
+    .wave-sway-slow,
+    .actor-sway,
+    .boat-bob,
+    .seagull,
+    .wave-cap {
+      animation: none !important;
     }
   }
 }

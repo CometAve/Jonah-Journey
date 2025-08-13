@@ -8,14 +8,14 @@ interface Chapter6Props {
   isVisible?: boolean;
 }
 export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
-  const [currentPhase, setCurrentPhase] = useState<"illustration" | "verse" | "video" | "puzzle">("illustration");
+  const [currentPhase, setCurrentPhase] = useState<"verse" | "illustration" | "video" | "puzzle">("verse");
   const { saveAnswer, completeChapter } = useProgress();
 
   // 일러스트 타이머 설정 (ChapterTransition과 유사한 2.5초)
   useEffect(() => {
     if (currentPhase === "illustration") {
       const timer = setTimeout(() => {
-        setCurrentPhase("verse");
+        setCurrentPhase("video");
       }, 2500);
       return () => clearTimeout(timer);
     }
@@ -23,7 +23,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
 
   const handleVerseAnswer = (answer: string) => {
     saveAnswer("chapter6_verse", answer);
-    setCurrentPhase("video");
+    setCurrentPhase("illustration");
   };
 
   const handleVideoComplete = () => {
@@ -50,29 +50,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
         </motion.div>
 
         <AnimatePresence mode="wait">
-          {/* Illustration Phase - ChapterTransition과 유사한 효과 */}
-          {currentPhase === "illustration" && (
-            <motion.div
-              key="illustration"
-              className="fixed inset-0 z-50 bg-black flex items-center justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <motion.img
-                src="/lovable-uploads/cd8efd63-c57d-4db0-a70d-fef6e50fd61c.png"
-                alt="니느웨를 바라보며 분노하는 요나"
-                className="max-w-full max-h-full object-contain"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              />
-            </motion.div>
-          )}
-
-          {/* Verse Phase */}
+          {/* Verse Phase - 처음 시작 */}
           {currentPhase === "verse" && (
             <motion.div
               key="verse"
@@ -105,6 +83,28 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                   />
                 </div>
               </div>
+            </motion.div>
+          )}
+
+          {/* Illustration Phase - 성경구절 정답 후 등장 */}
+          {currentPhase === "illustration" && (
+            <motion.div
+              key="illustration"
+              className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.img
+                src="/lovable-uploads/cd8efd63-c57d-4db0-a70d-fef6e50fd61c.png"
+                alt="니느웨를 바라보며 분노하는 요나"
+                className="max-w-full max-h-full object-contain"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              />
             </motion.div>
           )}
 

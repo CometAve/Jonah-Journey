@@ -128,7 +128,7 @@ export const Chapter5 = ({ onComplete, isVisible = true }: Chapter5Props) => {
                 </h3>
                 <QuestionInput
                   questionId="chapter5_verse"
-                  placeholder="예) 요나 3장 10절"
+                  placeholder="예) 창세기 1장 1절, 창 1:1, 창세기 1:1"
                   onCorrectAnswer={handleVerseAnswer}
                   validator={(answer) =>
                     validateBibleVerse(answer, BIBLE_ANSWERS.chapter5)
@@ -157,7 +157,7 @@ export const Chapter5 = ({ onComplete, isVisible = true }: Chapter5Props) => {
 
               <QuestionInput
                 questionId="chapter5_keyword"
-                placeholder="키워드를 입력하세요"
+                placeholder="지뢰 찾기에서 얻은 키워드를 입력하세요"
                 onCorrectAnswer={handleKeywordAnswer}
                 validator={(answer) =>
                   validateKeyword(answer, KEYWORDS.chapter5)

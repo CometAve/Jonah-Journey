@@ -56,7 +56,9 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
           {Array.from({ length: 18 }).map((_, i) => (
             <div
               key={`sh1-${i}`}
-              className={`shower ${i % 3 === 0 ? "slower" : i % 3 === 1 ? "" : "faster"}`}
+              className={`shower ${
+                i % 3 === 0 ? "slower" : i % 3 === 1 ? "" : "faster"
+              }`}
               style={{
                 left: `${(i * 7) % 100}%`,
                 animationDelay: `${(i * 0.12) % 1.2}s`,
@@ -109,7 +111,7 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
           </div>
         </div>
 
-  {/* Whale drifting freely behind front wave (moved to right side) */}
+        {/* Whale drifting freely behind front wave (moved to right side) */}
         <div className="absolute bottom-32 left-[76%] z-20 pointer-events-none">
           <div className="actor-sway">
             <span className="whale-bob text-6xl sm:text-7xl md:text-8xl select-none">
@@ -139,7 +141,9 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
           <div className="actor-sway-fast">
             <span className="boat-bob">
               <span className="flip-x">
-                <span className="boat-tilt text-8xl sm:text-9xl md:text-9xl select-none">⛵️</span>
+                <span className="boat-tilt text-8xl sm:text-9xl md:text-9xl select-none">
+                  ⛵️
+                </span>
               </span>
             </span>
           </div>
@@ -179,7 +183,7 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
                   </h3>
                   <QuestionInput
                     questionId="chapter3_verse1"
-                    placeholder="예) 요나 1장 12절"
+                    placeholder="예) 창세기 1장 1절, 창 1:1, 창세기 1:1"
                     onCorrectAnswer={handleVerse1Answer}
                     validator={(answer) =>
                       validateBibleVerse(answer, BIBLE_ANSWERS.chapter3_1)
@@ -206,7 +210,7 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
                   </h3>
                   <QuestionInput
                     questionId="chapter3_verse2"
-                    placeholder="예) 요나 1장 17절"
+                    placeholder="예) 창세기 1장 1절, 창 1:1, 창세기 1:1"
                     onCorrectAnswer={handleVerse2Answer}
                     validator={(answer) =>
                       validateBibleVerse(answer, BIBLE_ANSWERS.chapter3_2)
@@ -237,7 +241,7 @@ export const Chapter3 = ({ onComplete, isVisible = true }: Chapter3Props) => {
 
               <QuestionInput
                 questionId="chapter3_keyword"
-                placeholder="키워드를 입력하세요"
+                placeholder="미로에서 찾은 키워드를 입력하세요"
                 onCorrectAnswer={handleKeywordAnswer}
                 validator={(answer) =>
                   validateKeyword(answer, KEYWORDS.chapter3)

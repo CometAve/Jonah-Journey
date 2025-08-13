@@ -315,7 +315,10 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
           </div>
 
           {/* Lighthouse (separate, sits on pier top) */}
-          <div className="lighthouse lighthouse-on-pier" style={{ left: "92vw" }} />
+          <div
+            className="lighthouse lighthouse-on-pier"
+            style={{ left: "92vw" }}
+          />
 
           {/* Pier deck */}
           <div className="harbor-pier" />
@@ -340,7 +343,7 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
             const boatTypes = [
               { icon: "⛵️", base: 1.25 }, // sailboat: larger mast
               { icon: "🛥️", base: 1.15 }, // motorboat/yacht
-              { icon: "🚣", base: 0.9 },  // rowboat
+              { icon: "🚣", base: 0.9 }, // rowboat
               { icon: "🛶", base: 0.75 }, // canoe
             ] as const;
             const typeIdx = Math.floor(r(i + 555) * boatTypes.length);
@@ -467,7 +470,7 @@ export const Chapter2 = ({ onComplete, isVisible = true }: Chapter2Props) => {
                 </h3>
                 <QuestionInput
                   questionId="chapter2_verse"
-                  placeholder="예) 요나 1장 3절"
+                  placeholder="예) 창세기 1장 1절, 창 1:1, 창세기 1:1"
                   onCorrectAnswer={handleVerseAnswer}
                   validator={(answer) =>
                     validateBibleVerse(answer, BIBLE_ANSWERS.chapter2_1)

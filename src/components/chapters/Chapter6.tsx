@@ -150,7 +150,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                   </h3>
                   <QuestionInput
                     questionId="chapter6_verse"
-                    placeholder="예) 요나 4장 11절"
+                    placeholder="예) 창세기 1장 1절, 창 1:1, 창세기 1:1"
                     onCorrectAnswer={handleVerseAnswer}
                     validator={(answer) =>
                       validateBibleVerse(answer, BIBLE_ANSWERS.chapter6)
@@ -239,7 +239,11 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                 {/* 안내문 추가 */}
                 <div className="text-center bg-muted/50 border border-border/50 rounded-lg p-4">
                   <p className="text-muted-foreground text-sm">
-                    💡 <strong>문제를 자세히 보고 싶으시면 아래 "영상 시청 완료" 버튼을 눌러주세요!</strong>
+                    💡{" "}
+                    <strong>
+                      문제를 자세히 보고 싶으시면 아래 "영상 시청 완료" 버튼을
+                      눌러주세요!
+                    </strong>
                   </p>
                 </div>
 

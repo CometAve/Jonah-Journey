@@ -30,6 +30,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build project
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: List build output
+        run: |
+          echo "Build completed. Listing dist directory:"
+          ls -la dist/
+          echo "Index.html content preview:"
+          head -10 dist/index.html
+
       - name: Configure git
         run: |
           git config --local user.email "action@github.com"
@@ -38,7 +50,6 @@ jobs:
       - name: Deploy to gh-pages
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          npm run deploy
+          npx gh-pages -d dist
         env:
-          NODE_ENV: production
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

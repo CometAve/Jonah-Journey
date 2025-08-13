@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export interface Progress {
   currentChapter: number;
@@ -6,12 +6,12 @@ export interface Progress {
   answers: Record<string, string>;
 }
 
-const STORAGE_KEY = 'jonah-journey-progress';
+const STORAGE_KEY = "jonah-journey-progress";
 
 const initialProgress: Progress = {
   currentChapter: 1,
   completedChapters: new Set(),
-  answers: {}
+  answers: {},
 };
 
 export const useProgress = () => {
@@ -22,19 +22,31 @@ export const useProgress = () => {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      const introSeen = localStorage.getItem('jonah-intro-seen');
-      
+      const introSeen = localStorage.getItem("jonah-intro-seen");
+
       if (saved) {
         const parsed = JSON.parse(saved);
+        // Ensure completedChapters is properly converted to Set
+        const completedChapters = Array.isArray(parsed.completedChapters)
+          ? new Set<number>(parsed.completedChapters)
+          : new Set<number>();
+
         setProgress({
-          ...parsed,
-          completedChapters: new Set(parsed.completedChapters || [])
+          currentChapter: parsed.currentChapter || 1,
+          completedChapters,
+          answers: parsed.answers || {},
+        });
+
+        console.log("Loaded progress from localStorage:", {
+          currentChapter: parsed.currentChapter,
+          completedChapters: Array.from(completedChapters),
+          answersCount: Object.keys(parsed.answers || {}).length,
         });
       }
-      
-      setHasSeenIntro(introSeen === 'true');
+
+      setHasSeenIntro(introSeen === "true");
     } catch (error) {
-      console.error('Failed to load progress:', error);
+      console.error("Failed to load progress:", error);
     }
   }, []);
 
@@ -42,35 +54,70 @@ export const useProgress = () => {
   useEffect(() => {
     try {
       const toSave = {
-        ...progress,
-        completedChapters: Array.from(progress.completedChapters)
+        currentChapter: progress.currentChapter,
+        completedChapters: Array.from(progress.completedChapters),
+        answers: progress.answers,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+
+      console.log("Saved progress to localStorage:", {
+        currentChapter: toSave.currentChapter,
+        completedChapters: toSave.completedChapters,
+        answersCount: Object.keys(toSave.answers).length,
+      });
     } catch (error) {
-      console.error('Failed to save progress:', error);
+      console.error("Failed to save progress:", error);
     }
   }, [progress]);
 
   const saveIntroSeen = () => {
-    localStorage.setItem('jonah-intro-seen', 'true');
+    localStorage.setItem("jonah-intro-seen", "true");
     setHasSeenIntro(true);
   };
 
   const completeChapter = (chapter: number) => {
-    setProgress(prev => ({
-      ...prev,
-      completedChapters: new Set([...prev.completedChapters, chapter]),
-      currentChapter: Math.max(prev.currentChapter, chapter + 1)
-    }));
+    console.log(`Completing chapter ${chapter}`);
+
+    setProgress((prev) => {
+      // Check if chapter is already completed to avoid unnecessary updates
+      if (prev.completedChapters.has(chapter)) {
+        console.log(`Chapter ${chapter} already completed`);
+        return prev;
+      }
+
+      const newCompletedChapters = new Set([
+        ...prev.completedChapters,
+        chapter,
+      ]);
+
+      // Only advance to next chapter if current chapter is less than or equal to the completed chapter
+      const newCurrentChapter =
+        chapter < 6
+          ? Math.max(prev.currentChapter, chapter + 1)
+          : prev.currentChapter;
+
+      const newProgress = {
+        ...prev,
+        completedChapters: newCompletedChapters,
+        currentChapter: newCurrentChapter,
+      };
+
+      console.log(`Chapter ${chapter} completed. New progress:`, {
+        currentChapter: newProgress.currentChapter,
+        completedChapters: Array.from(newProgress.completedChapters),
+      });
+
+      return newProgress;
+    });
   };
 
   const saveAnswer = (questionId: string, answer: string) => {
-    setProgress(prev => ({
+    setProgress((prev) => ({
       ...prev,
       answers: {
         ...prev.answers,
-        [questionId]: answer
-      }
+        [questionId]: answer,
+      },
     }));
   };
 
@@ -81,7 +128,7 @@ export const useProgress = () => {
 
   const resetProgress = () => {
     localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem('jonah-intro-seen');
+    localStorage.removeItem("jonah-intro-seen");
     setProgress(initialProgress);
     setHasSeenIntro(false);
   };
@@ -93,6 +140,6 @@ export const useProgress = () => {
     completeChapter,
     saveAnswer,
     isChapterUnlocked,
-    resetProgress
+    resetProgress,
   };
 };

@@ -200,7 +200,7 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
 
                 <div className="aspect-video bg-black rounded-lg overflow-hidden relative">
                   <iframe
-                    src="https://www.youtube.com/embed/Ikfb3P8uIkA?si=bW4oVoQ-1gLI9RPW&end=52&controls=0&disablekb=1&fs=0&modestbranding=1&rel=0&iv_load_policy=3"
+                    src="https://www.youtube.com/embed/Ikfb3P8uIkA?si=bW4oVoQ-1gLI9RPW&end=52&controls=0&disablekb=1&fs=0&modestbranding=1&rel=0&iv_load_policy=3&autoplay=1"
                     title="늑대와 배 태우기 퀴즈"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     className="w-full h-full"
@@ -241,8 +241,9 @@ export const Chapter6 = ({ onComplete, isVisible = true }: Chapter6Props) => {
                   <p className="text-muted-foreground text-sm">
                     💡{" "}
                     <strong>
-                      문제를 자세히 보고 싶으시면 아래 "영상 시청 완료" 버튼을
-                      눌러주세요!
+                      문제를 자세히 보고 싶으시면
+                      <br />
+                      아래 "영상 시청 완료" 버튼을 눌러주세요!
                     </strong>
                   </p>
                 </div>

@@ -5,7 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: process.env.NODE_ENV === "production" ? "/Jonah-Journey/" : "/",
+  // Use Vite's mode to drive the base path so built assets resolve on GitHub Pages
+  base: mode === "production" ? "/Jonah-Journey/" : "/",
   server: {
     host: "::",
     port: 8080,

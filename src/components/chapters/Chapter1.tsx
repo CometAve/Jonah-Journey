@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QuestionInput } from "@/components/QuestionInput";
 import { validateBibleVerse, BIBLE_ANSWERS } from "@/utils/validation";
 import { useProgress } from "@/hooks/useProgress";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
 interface Chapter1Props {
   onComplete: () => void;
   isVisible?: boolean;
 }
+
 export const Chapter1 = ({ onComplete, isVisible = true }: Chapter1Props) => {
   const [showQuestion, setShowQuestion] = useState(true);
   const { saveAnswer } = useProgress();
 
+  // Only save answer when component is visible
   const handleCorrectAnswer = (answer: string) => {
+    if (!isVisible) return; // Prevent action when not visible
+
     saveAnswer("chapter1", answer);
     setShowQuestion(false);
-    // Don't call completeChapter here - let the parent handle it after transition
     onComplete();
   };
   return (

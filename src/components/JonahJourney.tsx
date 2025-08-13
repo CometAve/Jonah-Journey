@@ -1,8 +1,9 @@
 import { useProgress } from "@/hooks/useProgress";
-import { useEffect, useState } from "react";
+import { usePreloadChapter } from "@/hooks/usePreloadChapter";
+import React, { useEffect, useState } from "react";
 import { ChapterNavigation } from "./ChapterNavigation";
 import { ChapterTransition } from "./ChapterTransition";
-import { ChapterPreloader } from "./ChapterPreloader";
+import { ChapterErrorBoundary } from "./ChapterErrorBoundary";
 import { IntroAnimation } from "./IntroAnimation";
 import { Chapter1 } from "./chapters/Chapter1";
 import { Chapter2 } from "./chapters/Chapter2";
@@ -32,6 +33,20 @@ export const JonahJourney = () => {
     null
   );
   const [isNextChapterReady, setIsNextChapterReady] = useState(false);
+
+  // Use the preload hook
+  const {
+    preloadedComponent,
+    isLoading: isPreloading,
+    error: preloadError,
+  } = usePreloadChapter(preloadingChapter);
+
+  // Update ready state when preloaded component is available
+  useEffect(() => {
+    if (preloadedComponent && !isPreloading && !preloadError) {
+      setIsNextChapterReady(true);
+    }
+  }, [preloadedComponent, isPreloading, preloadError]);
 
   // Update current chapter based on progress only when not in transition
   useEffect(() => {
@@ -231,7 +246,9 @@ export const JonahJourney = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative">{renderCurrentChapter()}</div>
+      <div className="relative">
+        <ChapterErrorBoundary>{renderCurrentChapter()}</ChapterErrorBoundary>
+      </div>
 
       {/* Chapter Transition */}
       {showTransition && (
@@ -243,12 +260,28 @@ export const JonahJourney = () => {
       )}
 
       {/* Background Preloader for Next Chapter */}
-      {preloadingChapter && preloadingChapter <= 6 && (
-        <ChapterPreloader
-          chapterNumber={preloadingChapter}
-          onComplete={handlePreloadedChapterReady}
-          isVisible={false}
-        />
+      {preloadedComponent && preloadingChapter && (
+        <ChapterErrorBoundary>
+          <div
+            style={{
+              position: "absolute",
+              top: "-9999px",
+              left: "-9999px",
+              width: "1px",
+              height: "1px",
+              visibility: "hidden",
+              opacity: 0,
+              pointerEvents: "none",
+              zIndex: -1,
+            }}
+            aria-hidden={true}
+          >
+            {React.createElement(preloadedComponent, {
+              onComplete: () => {},
+              isVisible: false,
+            })}
+          </div>
+        </ChapterErrorBoundary>
       )}
 
       {/* Journey Complete Message */}

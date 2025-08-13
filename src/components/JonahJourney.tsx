@@ -2,6 +2,7 @@ import { useProgress } from "@/hooks/useProgress";
 import { useEffect, useState } from "react";
 import { ChapterNavigation } from "./ChapterNavigation";
 import { ChapterTransition } from "./ChapterTransition";
+import { ChapterPreloader } from "./ChapterPreloader";
 import { IntroAnimation } from "./IntroAnimation";
 import { Chapter1 } from "./chapters/Chapter1";
 import { Chapter2 } from "./chapters/Chapter2";
@@ -27,13 +28,17 @@ export const JonahJourney = () => {
   const [pendingChapterCompletion, setPendingChapterCompletion] = useState<
     number | null
   >(null);
+  const [preloadingChapter, setPreloadingChapter] = useState<number | null>(
+    null
+  );
+  const [isNextChapterReady, setIsNextChapterReady] = useState(false);
 
   // Update current chapter based on progress only when not in transition
   useEffect(() => {
     // Only update currentChapter if we're not showing transition
     // and the progress indicates we should move to the next chapter
     if (!showTransition) {
-      setCurrentChapter(prevChapter => {
+      setCurrentChapter((prevChapter) => {
         if (progress.currentChapter !== prevChapter) {
           return progress.currentChapter;
         }
@@ -56,6 +61,13 @@ export const JonahJourney = () => {
 
     // Store which chapter was completed for later processing
     setPendingChapterCompletion(completedChapter);
+
+    // Start preloading the next chapter immediately if not the last chapter
+    if (completedChapter < 6) {
+      const nextChapter = completedChapter + 1;
+      setPreloadingChapter(nextChapter);
+      setIsNextChapterReady(false);
+    }
 
     // Show transition illustration of the completed chapter before moving to next chapter
     if (completedChapter < 6) {
@@ -82,7 +94,10 @@ export const JonahJourney = () => {
         },
       };
 
-      const imageData = currentChapterImages[completedChapter as keyof typeof currentChapterImages];
+      const imageData =
+        currentChapterImages[
+          completedChapter as keyof typeof currentChapterImages
+        ];
       if (imageData) {
         setTransitionImage(imageData);
         setShowTransition(true);
@@ -90,11 +105,13 @@ export const JonahJourney = () => {
         // If no image for this chapter, complete immediately
         completeChapter(completedChapter);
         setPendingChapterCompletion(null);
+        setPreloadingChapter(null);
       }
     } else {
       // Chapter 6 is the last chapter, complete immediately
       completeChapter(completedChapter);
       setPendingChapterCompletion(null);
+      setPreloadingChapter(null);
     }
   };
 
@@ -106,9 +123,11 @@ export const JonahJourney = () => {
       try {
         completeChapter(pendingChapterCompletion);
       } catch (error) {
-        console.error('Error completing chapter:', error);
+        console.error("Error completing chapter:", error);
       } finally {
         setPendingChapterCompletion(null);
+        setPreloadingChapter(null);
+        setIsNextChapterReady(false);
       }
     }
   };
@@ -119,22 +138,61 @@ export const JonahJourney = () => {
     }
   };
 
+  const handlePreloadedChapterReady = () => {
+    setIsNextChapterReady(true);
+  };
+
   const renderCurrentChapter = () => {
     switch (currentChapter) {
       case 1:
-        return <Chapter1 onComplete={() => handleChapterComplete(1)} />;
+        return (
+          <Chapter1
+            onComplete={() => handleChapterComplete(1)}
+            isVisible={true}
+          />
+        );
       case 2:
-        return <Chapter2 onComplete={() => handleChapterComplete(2)} />;
+        return (
+          <Chapter2
+            onComplete={() => handleChapterComplete(2)}
+            isVisible={true}
+          />
+        );
       case 3:
-        return <Chapter3 onComplete={() => handleChapterComplete(3)} />;
+        return (
+          <Chapter3
+            onComplete={() => handleChapterComplete(3)}
+            isVisible={true}
+          />
+        );
       case 4:
-        return <Chapter4 onComplete={() => handleChapterComplete(4)} />;
+        return (
+          <Chapter4
+            onComplete={() => handleChapterComplete(4)}
+            isVisible={true}
+          />
+        );
       case 5:
-        return <Chapter5 onComplete={() => handleChapterComplete(5)} />;
+        return (
+          <Chapter5
+            onComplete={() => handleChapterComplete(5)}
+            isVisible={true}
+          />
+        );
       case 6:
-        return <Chapter6 onComplete={() => handleChapterComplete(6)} />;
+        return (
+          <Chapter6
+            onComplete={() => handleChapterComplete(6)}
+            isVisible={true}
+          />
+        );
       default:
-        return <Chapter1 onComplete={() => handleChapterComplete(1)} />;
+        return (
+          <Chapter1
+            onComplete={() => handleChapterComplete(1)}
+            isVisible={true}
+          />
+        );
     }
   };
 
@@ -184,6 +242,15 @@ export const JonahJourney = () => {
         />
       )}
 
+      {/* Background Preloader for Next Chapter */}
+      {preloadingChapter && preloadingChapter <= 6 && (
+        <ChapterPreloader
+          chapterNumber={preloadingChapter}
+          onComplete={handlePreloadedChapterReady}
+          isVisible={false}
+        />
+      )}
+
       {/* Journey Complete Message */}
       {isJourneyComplete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-divine/20 backdrop-blur-sm">
@@ -199,6 +266,9 @@ export const JonahJourney = () => {
                 resetProgress();
                 setCurrentChapter(1);
                 setShowTransition(false);
+                setPreloadingChapter(null);
+                setIsNextChapterReady(false);
+                setPendingChapterCompletion(null);
               }}
               className="btn-divine"
             >

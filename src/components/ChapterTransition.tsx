@@ -17,17 +17,24 @@ export const ChapterTransition = ({
   useEffect(() => {
     if (!isLoaded) return; // Wait for image to load first
 
-    // Hide after 3 seconds, but only after image is loaded
+    // Hide after 2.5 seconds (reduced from 3 seconds for better UX)
     const timer = setTimeout(() => {
       setIsVisible(false);
       // Complete transition after fade out animation
       setTimeout(() => {
         onComplete();
       }, 500);
-    }, 3000);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, [onComplete, isLoaded]);
+
+  // Preload the next chapter's image
+  useEffect(() => {
+    const img = new Image();
+    img.src = imageSrc;
+    img.onload = () => setIsLoaded(true);
+  }, [imageSrc]);
 
   return (
     <div
@@ -43,6 +50,15 @@ export const ChapterTransition = ({
         }`}
         onLoad={() => setIsLoaded(true)}
       />
+
+      {/* Loading indicator while image loads */}
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-white text-lg font-pretendard">
+            불러오는 중...
+          </div>
+        </div>
+      )}
     </div>
   );
 };

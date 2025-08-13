@@ -5,8 +5,9 @@ import { useProgress } from "@/hooks/useProgress";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 interface Chapter1Props {
   onComplete: () => void;
+  isVisible?: boolean;
 }
-export const Chapter1 = ({ onComplete }: Chapter1Props) => {
+export const Chapter1 = ({ onComplete, isVisible = true }: Chapter1Props) => {
   const [showQuestion, setShowQuestion] = useState(true);
   const { saveAnswer } = useProgress();
 
